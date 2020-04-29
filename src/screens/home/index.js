@@ -16,6 +16,8 @@ var { height,width } = Dimensions.get("window");
 
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { NavigationContainer } from '@react-navigation/native';
+import CartScreen from '../cart';
 
 const item_image_1=require('../../assets/images/products/can_bang_cam_xuc.jpg');
 const item_image_2=require('../../assets/images/products/dung_lua_chon_an_nhan_khi_con_tre.jpg');
@@ -45,7 +47,7 @@ class HomeScreen extends Component {
                       clearButtonMode='always'
                     />
                   </View>
-                  <TouchableOpacity style={styles.cart}>
+                  <TouchableOpacity style={styles.cart} onPress={()=>this.props.navigation.navigate('Cart')}>
                     <Icon name="md-cart" size={30}></Icon>
                   </TouchableOpacity>
                 </View>

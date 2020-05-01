@@ -78,27 +78,83 @@ class HomeScreen extends Component {
             </View>
             <View style={styles.categories}>
               <View style={styles.categories_top}>
-                <View style={styles.enBooks}>
-                  <TouchableOpacity>
-                   <Image source={require('../../assets/images/categories/enBooks.png')} resizeMode={'contain'} style={styles.categories_img}/>
-                  </TouchableOpacity>
+                <View style={styles.enBooks_container}>
+                  <View style={styles.enBooks_content}>
+                    <TouchableOpacity style={{flex:1}}>
+                        {/* <Image source={require('../../assets/images/categories/viBooks.png')} resizeMode={'contain'} style={styles.categories_img}/> */}
+                        <View style={styles.enBooks_header}>
+                          <Text style={styles.cate_text_header}>
+                            English Books
+                          </Text>
+                          <Text style={styles.cate_text_content}>
+                            15 Sản phẩm
+                          </Text>
+                        </View>
+                        <View style={styles.enBooks_img_container}>
+                          <Image source={require('../../assets/images/categories/enBooks_1.jpg')} resizeMode={'contain'} style={styles.enBooks_img_item}/>
+                          <Image source={require('../../assets/images/categories/enBooks_2.jpg')} resizeMode={'contain'} style={styles.enBooks_img_item}/>                        
+                        </View>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View style={styles.viBooks}>
-                  <TouchableOpacity>
-                    <Image source={require('../../assets/images/categories/viBooks.png')} resizeMode={'contain'} style={styles.categories_img}/>
-                  </TouchableOpacity>
+                <View style={styles.viBooks_container}>
+                  <View style={styles.viBooks_content}>
+                    <TouchableOpacity style={{flex:1}}>
+                          {/* <Image source={require('../../assets/images/categories/viBooks.png')} resizeMode={'contain'} style={styles.categories_img}/> */}
+                          <View style={styles.enBooks_header}>
+                            <Text style={styles.cate_text_header}>
+                              Sách Tiếng Việt
+                            </Text>
+                            <Text style={styles.cate_text_content}>
+                              19 Sản phẩm
+                            </Text>
+                          </View>
+                          <View style={styles.enBooks_img_container}>
+                            <Image source={require('../../assets/images/categories/viBooks_1.jpg')} resizeMode={'contain'} style={styles.enBooks_img_item}/>
+                            <Image source={require('../../assets/images/categories/viBooks_2.jpg')} resizeMode={'contain'} style={styles.enBooks_img_item}/>                        
+                          </View>
+                      </TouchableOpacity>
+                  </View>
                 </View>
               </View>
               <View style={styles.categories_bot}>
-                <View style={styles.stationery}>
-                  <TouchableOpacity>
-                    <Image source={require('../../assets/images/categories/stationery.png')} resizeMode={'contain'} style={styles.categories_img}/>
-                  </TouchableOpacity>
+                <View style={styles.stationery_container}>
+                  <View style={styles.stationery_content}>
+                    <TouchableOpacity style={{flex:1}}>
+                          {/* <Image source={require('../../assets/images/categories/viBooks.png')} resizeMode={'contain'} style={styles.categories_img}/> */}
+                          <View style={styles.enBooks_header}>
+                            <Text style={styles.cate_text_header}>
+                              Văn phòng phẩm
+                            </Text>
+                            <Text style={styles.cate_text_content}>
+                              25 Sản phẩm
+                            </Text>
+                          </View>
+                          <View style={styles.enBooks_img_container}>
+                            <Image source={require('../../assets/images/categories/stationery_1.jpg')} resizeMode={'contain'} style={styles.enBooks_img_item}/>
+                            <Image source={require('../../assets/images/categories/stationery_2.jpg')} resizeMode={'contain'} style={styles.enBooks_img_item}/>                        
+                          </View>
+                      </TouchableOpacity>
+                  </View>
                 </View>
-                <View style={styles.souvenir}>
-                  <TouchableOpacity>
-                    <Image source={require('../../assets/images/categories/souvenir.png')} resizeMode={'contain'} style={styles.categories_img}/>  
-                  </TouchableOpacity>
+                <View style={styles.souvenir_container}>
+                  <View style={styles.souvenir_content}>
+                    <TouchableOpacity style={{flex:1}}>
+                          {/* <Image source={require('../../assets/images/categories/viBooks.png')} resizeMode={'contain'} style={styles.categories_img}/> */}
+                          <View style={styles.enBooks_header}>
+                            <Text style={styles.cate_text_header}>
+                              Quà lưu niệm
+                            </Text>
+                            <Text style={styles.cate_text_content}>
+                              43 Sản phẩm
+                            </Text>
+                          </View>
+                          <View style={styles.enBooks_img_container}>
+                            <Image source={require('../../assets/images/categories/souvenir_1.jpg')} resizeMode={'contain'} style={styles.enBooks_img_item}/>
+                            <Image source={require('../../assets/images/categories/souvenir_2.jpg')} resizeMode={'contain'} style={styles.enBooks_img_item}/>                        
+                          </View>
+                      </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
@@ -207,8 +263,10 @@ const styles=StyleSheet.create({
   },
   categories:{
     flex:1,
-    height:height/3+50,
+    height:height/2,
     backgroundColor:'white',
+    paddingTop:10,
+    
   },
   itemContainer:{
     width: 100,
@@ -216,39 +274,93 @@ const styles=StyleSheet.create({
     marginTop: 10,
   },
   categories_top:{
-    flex:1,
+    flex:8,
     flexDirection:'row',
-    height:height/3/2,
     
   },
   categories_bot:{
-    flex:1,
+    flex:9,
     flexDirection:'row',
-    height:height/3/2,
+    
   },
-  enBooks:{
+  enBooks_container:{
       width:'50%',
-      padding:10,
-      justifyContent:'center'
+      justifyContent:'center',
+      paddingLeft:10,
+      paddingRight:5,
   },
-  viBooks:{
+  viBooks_container:{
       width:'50%',
-      padding:10,
-      justifyContent:'center'
+      paddingLeft:5,
+      paddingRight:10,
+      justifyContent:'center',
+      
   },
-  stationery:{
-    width:width/2,
-    padding:10,
-    justifyContent:'center'
-  },
-  souvenir:{
+  stationery_container:{
     width:'50%',
     padding:10,
-    justifyContent:'center'
+    justifyContent:'center',
+    paddingLeft:10,
+    paddingRight:5,
+  },
+  souvenir_container:{
+    width:'50%',
+    padding:10,
+    justifyContent:'center',
+    paddingLeft:5,
+    paddingRight:10,
+  },
+  enBooks_content:{
+    flex:1,
+    backgroundColor:'#fcf8e4',
+    borderRadius:10,
+    color:'#997b43'
+  },
+  viBooks_content:{
+    flex:1,
+    backgroundColor:'#d3eeff',
+    borderRadius:10
+  },
+  stationery_content:{
+    flex:1,
+    backgroundColor:'#fff1f1',
+    borderRadius:10
+  },
+  souvenir_content:{
+    flex:1,
+    backgroundColor:'#e7f8f1',
+    borderRadius:10
+  },
+  enBooks_header:{
+    flex:4,
+  },
+  enBooks_img_container:{
+    flex:5,
+    flexDirection:'row',
+    marginBottom:10
+  },
+  enBooks_img_item:{
+    height:'100%',
+    width:'100%',
+    flex:1
   },
   categories_img:{
     height:'100%',
     width:'130%'
+  },
+  cate_text_header:{
+    fontFamily:'AntDesign',
+    fontSize:16,
+    paddingTop:10,
+    paddingLeft:10,
+    color:'#997b43',
+    fontWeight:'bold'
+    //color:#515f9d,#ad1913,#246223
+  },
+  cate_text_content:{
+    paddingTop:5,
+    paddingLeft:10,
+    color:'#997b43'
   },
   product_image: {
     width: 100,

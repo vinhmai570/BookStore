@@ -25,7 +25,7 @@ const BaseScreen=() => (
                 iconName = 'md-notifications';
             }
             // You can return any component that you like here!
-            return <Icon name={iconName} size={30} fill={color} color={"black"} />;
+            return <Icon name={iconName} size={30} fill={color} color={focused ? '#147efb' : '#ccc'} />; {/*#147efb*/}
         },
     })}
     tabBarOptions={{

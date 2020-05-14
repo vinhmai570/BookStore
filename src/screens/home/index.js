@@ -18,7 +18,7 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {NavigationContainer} from '@react-navigation/native';
 import CartScreen from '../cart';
-import {getProductsFromServer} from '../../networking/server.js';
+import {getProductsFromServer} from '../../networking/getProducts.js';
 const item_image_1 = require('../../assets/images/products/can_bang_cam_xuc.jpg');
 const item_image_2 = require('../../assets/images/products/dung_lua_chon_an_nhan_khi_con_tre.jpg');
 const item_image_3 = require('../../assets/images/products/nha_gia_kim.jpg');
@@ -29,7 +29,7 @@ const ProductItem = ({image, name, price}) => (
   <View style={styles.itemContainer}>
     <Image
       source={{uri: 'http://mybook.maitrongvinh.tk/' + image}}
-      style={styles.product_image}
+      style={styles.productImage}
     />
     <Text style={styles.itemName} numberOfLines={2}>
       {name}
@@ -66,23 +66,27 @@ class HomeScreen extends Component {
   render() {
     return (
       <ScrollView
-        // stickyHeaderIndices={[0]} 
+        stickyHeaderIndices={[0]}
+        
       >
         {/* HEADER */}
-        <View style={styles.header}>
-          <View style={styles.searchBar}>
-            <Icon name="md-search" size={25} style={styles.iconSearchBar} />
-            <TextInput
-              style={styles.input_searchBar}
-              placeholder="Bạn cần tìm sách gì?"
-              clearButtonMode="always"
-            />
+        <View>
+          <View style={styles.header}>
+            <View style={styles.searchBar}>
+              <Icon name="md-search" size={25} style={styles.iconSearchBar} />
+              <TextInput
+                style={styles.inputSearchBar}
+                placeholder="Bạn cần tìm sách gì?"
+                clearButtonMode="always"
+              />
+            </View>
+            <View style={styles.cart}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Cart')}>
+                <Icon name="md-cart" size={30} color={'white'} />
+              </TouchableOpacity>
+            </View>
           </View>
-          <TouchableOpacity
-            style={styles.cart}
-            onPress={() => this.props.navigation.navigate('Cart')}>
-            <Icon name="md-cart" size={30} color={'white'} />
-          </TouchableOpacity>
         </View>
         {/* END HEADER */}
         {/* SWIPER */}
@@ -113,8 +117,13 @@ class HomeScreen extends Component {
         {/* END SWIPER */}
 
         {/* ALL PRODUCTS */}
-        <View style={styles.allproducts}>
-          <Text style={styles.products_text}>Tất cả sản phẩm</Text>
+        <View style={styles.allProducts}>
+          <View style={styles.productsHeader}>
+            <Text style={styles.productsText}>Sản phẩm giảm giá</Text>
+            <TouchableOpacity style={styles.productViewAll} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
+              <Text style={{fontSize:18,color:'white', paddingHorizontal:20}}>Xem tất cả</Text>
+            </TouchableOpacity>
+          </View>
           <FlatList
             style={styles.productsTop}
             ref={'flashlist'}
@@ -127,7 +136,6 @@ class HomeScreen extends Component {
                   image={item.item.ImageURL}
                   name={item.item.ProdName}
                   price={item.item.Price}
-                 
                   parentFlashlist={this}
                   />
                 </TouchableOpacity>
@@ -146,115 +154,150 @@ class HomeScreen extends Component {
           </Text>
         </View>
         <View style={styles.categories}>
-          <View style={styles.categories_top}>
-            <View style={styles.enBooks_container}>
-              <View style={styles.enBooks_content}>
+          <View style={styles.categoriesTop}>
+            <View style={styles.enBooksContainer}>
+              <View style={styles.enBooksContent}>
                 <TouchableOpacity style={{flex: 1}}>
-                  <View style={styles.cate_item_header}>
-                    <Text style={styles.cate_text_header}>English Books</Text>
-                    <Text style={styles.cate_text_content}>15 Sản phẩm</Text>
+                  <View style={styles.cateItem_header}>
+                    <Text style={styles.cateText_header}>English Books</Text>
+                    <Text style={styles.cateText_content}>15 Sản phẩm</Text>
                   </View>
-                  <View style={styles.enBooks_img_container}>
+                  <View style={styles.enBooksImg_container}>
                     <Image
                       source={require('../../assets/images/categories/enBooks_1.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooks_img_item}
+                      style={styles.enBooksImg_item}
                     />
                     <Image
                       source={require('../../assets/images/categories/enBooks_2.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooks_img_item}
+                      style={styles.enBooksImg_item}
                     />
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.viBooks_container}>
-              <View style={styles.viBooks_content}>
+            <View style={styles.viBooksContainer}>
+              <View style={styles.viBooksContent}>
                 <TouchableOpacity style={{flex: 1}}>
-                  <View style={styles.cate_item_header}>
-                    <Text style={[styles.cate_text_header, {color: '#515f9d'}]}>
+                  <View style={styles.cateItem_header}>
+                    <Text style={[styles.cateText_header, {color: '#515f9d'}]}>
                       Sách Tiếng Việt
                     </Text>
                     <Text
-                      style={[styles.cate_text_content, {color: '#515f9d'}]}>
+                      style={[styles.cateText_content, {color: '#515f9d'}]}>
                       19 Sản phẩm
                     </Text>
                   </View>
-                  <View style={styles.enBooks_img_container}>
+                  <View style={styles.enBooksImg_container}>
                     <Image
                       source={require('../../assets/images/categories/viBooks_1.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooks_img_item}
+                      style={styles.enBooksImg_item}
                     />
                     <Image
                       source={require('../../assets/images/categories/viBooks_2.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooks_img_item}
+                      style={styles.enBooksImg_item}
                     />
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
-          <View style={styles.categories_bot}>
-            <View style={styles.stationery_container}>
-              <View style={styles.stationery_content}>
+          <View style={styles.categoriesBot}>
+            <View style={styles.stationeryContainer}>
+              <View style={styles.stationeryContent}>
                 <TouchableOpacity style={{flex: 1}}>
-                  <View style={styles.cate_item_header}>
-                    <Text style={[styles.cate_text_header, {color: '#ad1913'}]}>
+                  <View style={styles.cateItem_header}>
+                    <Text style={[styles.cateText_header, {color: '#ad1913'}]}>
                       Văn phòng phẩm
                     </Text>
                     <Text
-                      style={[styles.cate_text_content, {color: '#ad1913'}]}>
+                      style={[styles.cateText_content, {color: '#ad1913'}]}>
                       25 Sản phẩm
                     </Text>
                   </View>
-                  <View style={styles.enBooks_img_container}>
+                  <View style={styles.enBooksImg_container}>
                     <Image
                       source={require('../../assets/images/categories/stationery_1.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooks_img_item}
+                      style={styles.enBooksImg_item}
                     />
                     <Image
                       source={require('../../assets/images/categories/stationery_2.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooks_img_item}
+                      style={styles.enBooksImg_item}
                     />
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.souvenir_container}>
-              <View style={styles.souvenir_content}>
+            <View style={styles.souvenirContainer}>
+              <View style={styles.souvenirContent}>
                 <TouchableOpacity style={{flex: 1}}>
-                  <View style={styles.cate_item_header}>
-                    <Text style={[styles.cate_text_header, {color: '#246223'}]}>
+                  <View style={styles.cateItem_header}>
+                    <Text style={[styles.cateText_header, {color: '#246223'}]}>
                       Quà lưu niệm
                     </Text>
                     <Text
-                      style={[styles.cate_text_content, {color: '#246223'}]}>
+                      style={[styles.cateText_content, {color: '#246223'}]}>
                       43 Sản phẩm
                     </Text>
                   </View>
-                  <View style={styles.enBooks_img_container}>
+                  <View style={styles.enBooksImg_container}>
                     <Image
                       source={require('../../assets/images/categories/souvenir_1.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooks_img_item}
+                      style={styles.enBooksImg_item}
                     />
                     <Image
                       source={require('../../assets/images/categories/souvenir_2.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooks_img_item}
+                      style={styles.enBooksImg_item}
                     />
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
-          {/* END CATEGORIES */}
+          
         </View>
+        {/* END CATEGORIES */}
+        {/* ALL PRODUCTS */}
+        <View style={styles.allProducts}>
+          <View style={styles.productsHeader}>
+            <Text style={styles.productsText}>Tất cả sản phẩm</Text>
+            <TouchableOpacity style={styles.productViewAll} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
+              <Text style={{fontSize:18,color:'white', paddingHorizontal:20}}>Xem tất cả</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView>
+          <FlatList
+            style={styles.productsTop}
+            ref={'flashlist'}
+            data={this.state.productsFromServer}
+            renderItem={item => {
+              //  console.log(`Item = ${JSON.stringify(item.item)}, index=${JSON.stringify(item.index)}`);
+              return (
+                <TouchableOpacity  onPress={() => {this.props.navigation.navigate('Details')}}>
+                  <ProductItem
+                  image={item.item.ImageURL}
+                  name={item.item.ProdName}
+                  price={item.item.Price}
+                  parentFlashlist={this}
+                  />
+                </TouchableOpacity>
+              );
+            }}
+            keyExtractor={item => item.ProdId}
+            horizontal={true}
+            initialNumToRender={2}
+          />
+          </ScrollView>
+        </View>
+        {/* END ALL PRODUCTS */}
+
       </ScrollView>
     );
   }
@@ -266,29 +309,14 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor:'rgb(24, 158, 255)'
-  },
-  products: {
-    height: height / 2,
-    flexDirection: 'row',
-  },
-  productsTop:{
-    borderTopLeftRadius:15,
-    borderBottomLeftRadius:15,
-    
-    marginLeft:15
-  },
-  products_text:{
-    padding:10,
     backgroundColor:'rgb(24, 158, 255)',
-    color:'white',
-    fontSize:20,
-    fontFamily:'roboto'
+    
   },
   searchBar: {
     flex: 7,
     alignItems: 'flex-start',
     position: 'relative',
+    justifyContent:'space-around',
     zIndex: 1,
     borderColor: 'gray',
     height: 40,
@@ -301,7 +329,7 @@ const styles = StyleSheet.create({
   iconSearchBar: {
     bottom: 2,
   },
-  input_searchBar: {
+  inputSearchBar: {
     flex: 6,
     position: 'absolute',
     marginLeft: 30,
@@ -314,6 +342,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  products: {
+    height: height / 2,
+    flexDirection: 'row',
+  },
+  productsTop:{
+    borderTopLeftRadius:15,
+    borderBottomLeftRadius:15,
+    
+    marginLeft:15
+  },
+  productsHeader:{
+    flexDirection:'row',
+    backgroundColor:'rgb(24, 158, 255)',
+    justifyContent:'space-between',
+    alignItems:'center'
+  },
+  productViewAll:{
+    fontSize:20
+  },
+  productsText:{
+    padding:10,
+    color:'white',
+    fontSize:20,
+    fontFamily:'Roboto-Regular'
+  },
+  
   categories: {
     flex: 1,
     height: height / 2,
@@ -326,79 +380,79 @@ const styles = StyleSheet.create({
     marginRight: 12,
     marginTop: 10,
   },
-  categories_top: {
+  categoriesTop: {
     flex: 8,
     flexDirection: 'row',
   },
-  categories_bot: {
+  categoriesBot: {
     flex: 9,
     flexDirection: 'row',
   },
-  enBooks_container: {
+  enBooksContainer: {
     width: '50%',
     justifyContent: 'center',
     paddingLeft: 10,
     paddingRight: 5,
   },
-  viBooks_container: {
+  viBooksContainer: {
     width: '50%',
     paddingLeft: 5,
     paddingRight: 10,
     justifyContent: 'center',
   },
-  stationery_container: {
+  stationeryContainer: {
     width: '50%',
     padding: 10,
     justifyContent: 'center',
     paddingLeft: 10,
     paddingRight: 5,
   },
-  souvenir_container: {
+  souvenirContainer: {
     width: '50%',
     padding: 10,
     justifyContent: 'center',
     paddingLeft: 5,
     paddingRight: 10,
   },
-  enBooks_content: {
+  enBooksContent: {
     flex: 1,
     backgroundColor: '#fcf8e4',
     borderRadius: 10,
     color: '#997b43',
   },
-  viBooks_content: {
+  viBooksContent: {
     flex: 1,
     backgroundColor: '#d3eeff',
     borderRadius: 10,
   },
-  stationery_content: {
+  stationeryContent: {
     flex: 1,
     backgroundColor: '#fff1f1',
     borderRadius: 10,
   },
-  souvenir_content: {
+  souvenirContent: {
     flex: 1,
     backgroundColor: '#e7f8f1',
     borderRadius: 10,
   },
-  cate_item_header: {
+  cateItem_header: {
     flex: 4,
   },
-  enBooks_img_container: {
+  enBooksImg_container: {
     flex: 5,
     flexDirection: 'row',
     marginBottom: 10,
   },
-  enBooks_img_item: {
+  enBooksImg_item: {
     height: '100%',
     width: '100%',
     flex: 1,
   },
-  categories_img: {
+  categoriesImg: {
     height: '100%',
     width: '130%',
   },
-  cate_text_header: {
+  cateText_header: {
     fontFamily: 'AntDesign',
     fontSize: 16,
     paddingTop: 10,
@@ -407,18 +461,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     //color:#515f9d,
   },
-  cate_text_content: {
+  cateText_content: {
     paddingTop: 5,
     paddingLeft: 10,
     color: '#997b43',
   },
-  allproducts:{
+  allProducts:{
     paddingBottom:20,
     
     borderBottomWidth:1,
     borderBottomColor:"#fff"
   },
-  product_image: {
+  productImage: {
     width: 100,
     height: 120,
   },

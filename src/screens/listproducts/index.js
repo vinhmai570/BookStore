@@ -6,11 +6,13 @@ import { Text,
      ScrollView,  
      Image,
      TouchableOpacity,
-     FlatList
+     FlatList,
+     RefreshControl
 } from 'react-native';
-import {getProductsFromServer} from '../../networking/getProducts.js';
+import {getAPIFromServer} from '../../networking/getAPI.js';
 var {height,width}= Dimensions.get("window");
 
+const apiGetAllProducts='http://mybook.maitrongvinh.tk/index.php/getproducts';
 const ProductItem = ({image, name, price}) => (
     <View style={styles.product}>
         <View style={styles.imageContainer}>
@@ -26,7 +28,8 @@ class ListProductsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          productsFromServer: [],
+            refreshing:false,
+            productsFromServer: [],
         };
       }
     componentDidMount() {
@@ -34,18 +37,25 @@ class ListProductsScreen extends Component {
         this.refreshDataFromServer();
     }
     refreshDataFromServer = () => {
-        getProductsFromServer()
+        this.setState({refreshing:true});
+        getAPIFromServer(apiGetAllProducts)
         .then(products => {
         this.setState({productsFromServer: products});
+        this.setState({refreshing:false});
         })
         .catch(error => {
         this.setState({productsFromServer: []});
+        this.setState({refreshing:false});
         });
     };
+    onRefresh=()=>{
+        this.refreshDataFromServer();
+    }
+
     render() {
         return (
             <View>
-                <ScrollView>
+                {/* <ScrollView> */}
                     <View style={styles.container}>
                         {/* <View style={styles.product}>
                             <View style={styles.imageContainer}>
@@ -76,10 +86,16 @@ class ListProductsScreen extends Component {
                             }}
                             keyExtractor={item => item.ProdId}
                             numColumns={2}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={this.state.refreshing}
+                                    onRefresh={this.onRefresh}
+                                />
+                            }
                         />
                         
                     </View>
-                </ScrollView>
+                {/* </ScrollView> */}
             </View>
         )
     }

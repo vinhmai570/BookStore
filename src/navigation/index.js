@@ -3,6 +3,8 @@ import { Text, View } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import BaseScreen from '../screens/base';
 import LoginScreen from '../screens/login/index';
 import DetailsScreen from '../screens/details/index';
@@ -20,7 +22,12 @@ function AppNavigation(){
                 <Stack.Screen name="Login" component={LoginScreen}/>
                 <Stack.Screen name="Details" component={DetailsScreen}/>
                 <Stack.Screen name="Profile" component={ProfileScreen}/>
-                <Stack.Screen name="Cart" component={CartScreen}/>
+                <Stack.Screen name="Cart" component={CartScreen} options={{title:'Giỏ hàng',headerStyle: {
+            backgroundColor:'rgb(24, 158, 255)',
+          },
+          headerTintColor: '#fff', 
+          
+          }}/>
                 <Stack.Screen name="ListProducts" component={ListProductsScreen}/>
             </Stack.Navigator>
         </NavigationContainer>

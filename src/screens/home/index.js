@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import {
   Text,
   View,
@@ -17,15 +16,12 @@ var {height, width} = Dimensions.get('window');
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {NavigationContainer} from '@react-navigation/native';
-import CartScreen from '../cart';
-import {getProductsFromServer} from '../../networking/getProducts.js';
-const item_image_1 = require('../../assets/images/products/can_bang_cam_xuc.jpg');
-const item_image_2 = require('../../assets/images/products/dung_lua_chon_an_nhan_khi_con_tre.jpg');
-const item_image_3 = require('../../assets/images/products/nha_gia_kim.jpg');
-const item_image_4 = require('../../assets/images/products/tony_buoi_sang.jpg');
+import {getAPIFromServer} from '../../networking/getAPI.js';
+
+// LINK API - DATA:JSON
+const apiGetAllProducts='http://mybook.maitrongvinh.tk/index.php/getproducts';
 
 const ProductItem = ({image, name, price}) => (
-  
   <View style={styles.itemContainer}>
     <Image
       source={{uri: 'http://mybook.maitrongvinh.tk/' + image}}
@@ -36,7 +32,6 @@ const ProductItem = ({image, name, price}) => (
     </Text>
     <Text style={styles.itemPrice}>{price}</Text>
   </View>
- 
 );
 class HomeScreen extends Component {
   constructor(props) {
@@ -54,7 +49,7 @@ class HomeScreen extends Component {
   //   this._isMounted=false;
   // }
   refreshDataFromServer = () => {
-    getProductsFromServer()
+    getAPIFromServer(apiGetAllProducts)
       .then(products => {
         this.setState({productsFromServer: products});
       })

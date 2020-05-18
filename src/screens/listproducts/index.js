@@ -19,7 +19,7 @@ const ProductItem = ({image, name, price}) => (
             <Image source={{uri: 'http://mybook.maitrongvinh.tk/' + image}} style={{width:width/2,height:"100%"}} resizeMode={'cover'}/>
         </View>
         <View style={styles.textContainer}>
-            <Text style={{fontSize:16,fontFamily:'Roboto-Medium',marginTop:10,height:40}} numberOfLines={2}>{name}</Text>
+            <Text style={{fontSize:16,fontFamily:'Roboto-Medium',marginTop:10,height:40,paddingHorizontal:25}} numberOfLines={2}>{name}</Text>
             <Text style={{color:'red',marginTop:6}}>{price} đ</Text>
         </View>
     </View>
@@ -73,7 +73,7 @@ class ListProductsScreen extends Component {
                             renderItem={item => {
                             //   console.log(`Item = ${JSON.stringify(item.item.ImageURL)}, index=${JSON.stringify(item.index)}`);
                             return (
-                                <TouchableOpacity  onPress={() => {this.props.navigation.navigate('Details')}}>
+                                <TouchableOpacity  onPress={() => {this.props.navigation.navigate('Details',{id:item.item.ProdId})}}>
                                     <ProductItem
                                     image={item.item.ImageURL}
                                     name={item.item.ProdName}
@@ -92,6 +92,7 @@ class ListProductsScreen extends Component {
                                     onRefresh={this.onRefresh}
                                 />
                             }
+                            showsHorizontalScrollIndicator={false}
                         />
                         
                     </View>

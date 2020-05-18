@@ -6,7 +6,7 @@ async function getAPIFromServer(api){
     try {
         let response=await fetch(api);
         let responseJson=await response.json();
-        return responseJson;
+         return responseJson;
     } catch (error) {
         console.error(`error is :${error}`);
     }

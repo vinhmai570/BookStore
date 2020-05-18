@@ -33,6 +33,7 @@ const ProductItem = ({image, name, price}) => (
     <Text style={styles.itemPrice}>{price}</Text>
   </View>
 );
+
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -62,7 +63,7 @@ class HomeScreen extends Component {
     return (
       <ScrollView
         stickyHeaderIndices={[0]}
-        
+        showsVerticalScrollIndicator={false}
       >
         {/* HEADER */}
         <View>
@@ -126,7 +127,8 @@ class HomeScreen extends Component {
             renderItem={item => {
               //  console.log(`Item = ${JSON.stringify(item.item)}, index=${JSON.stringify(item.index)}`);
               return (
-                <TouchableOpacity  onPress={() => {this.props.navigation.navigate('Details')}}>
+                <TouchableOpacity onPress={() => {this.props.navigation.navigate('Details',{id:item.item.ProdId})}} >
+                  {/* ) console.log(item.item.ProdId)*/}
                   <ProductItem
                   image={item.item.ImageURL}
                   name={item.item.ProdName}
@@ -138,6 +140,7 @@ class HomeScreen extends Component {
             }}
             keyExtractor={item => item.ProdId}
             horizontal={true}
+            showsHorizontalScrollIndicator={false}
           />
         </View>
         {/* END ALL PRODUCTS */}
@@ -275,7 +278,7 @@ class HomeScreen extends Component {
             renderItem={item => {
               //  console.log(`Item = ${JSON.stringify(item.item)}, index=${JSON.stringify(item.index)}`);
               return (
-                <TouchableOpacity  onPress={() => {this.props.navigation.navigate('Details')}}>
+                <TouchableOpacity  onPress={() => {this.props.navigation.navigate('Details',{id:item.item.ProdId})}}>
                   <ProductItem
                   image={item.item.ImageURL}
                   name={item.item.ProdName}
@@ -287,6 +290,7 @@ class HomeScreen extends Component {
             }}
             keyExtractor={item => item.ProdId}
             horizontal={true}
+            showsHorizontalScrollIndicator={false}
             initialNumToRender={2}
           />
           </ScrollView>

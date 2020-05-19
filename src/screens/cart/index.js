@@ -1,84 +1,183 @@
 import React, { Component } from 'react';
 import { Text, View,StyleSheet, Image, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 class CartScreen extends Component {
     constructor(props){
         super(props);
         this.state={
-            cartItems:[],
-            quantity:1,
+            dataCart:[],
         }
     }
+    componentDidMount(){
+        AsyncStorage.getItem('cart').then((cart)=>{
+            if (cart !== null) {
+              
+              const cartproduct = JSON.parse(cart);
+            //   console.log(cartproduct.length);
+              for(let i=0;i<cartproduct.length;i++){
+                //   console.log(cartproduct[i].product.item.ProdId);
+                    
+                    if(typeof(cartproduct[i])==='object'){
+                        for(let j=0;j<cartproduct.length;j++){
+                            if(typeof(cartproduct[j])==='object'){
+                                if(i!=j&&typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
+                                    if(cartproduct[i].product.item.ProdId==cartproduct[j].product.item.ProdId){
+                                        if(typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
+                                            cartproduct.splice(j,1);
+                                            j--;
+                                        }
+                                        
+                                        if(typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
+                                            // console.log(typeof(cartproduct[i]));
+                                            cartproduct[i].quantity++;
+                                        }
+                                    }
+                                }
+                                // console.log(j);
+                            }
+                        }
+                    }
+              }
+            //  console.log(cartproduct.length);
+              this.setState({dataCart:cartproduct});
+              
+            }
+          })
+          .catch((err)=>{
+            alert(err)
+          })
 
-    countAdd=(quantity)=>{
-        quantity+=1;
-        this.setState({quantity:quantity});
     }
-    countRemove=(quantity)=>{
-        if(quantity>1){
-            quantity-=1;
+    countAdd=(item)=>{
+       let added=this.state.dataCart;
+       for(let i=0;i<added.length;i++){
+            if(item.product.item.ProdId===added[i].product.item.ProdId){
+                added[i].quantity++;
+            }
         }
-        this.setState({quantity:quantity});
+        this.setState({dataCart:added});
+        AsyncStorage.getItem('cart').then((datacart)=>{
+            if (datacart !== null) {
+              const cart = JSON.parse(datacart);
+              AsyncStorage.setItem('cart',JSON.stringify(added));
+            }
+          })
+          .catch((err)=>{
+            alert(err)
+          })
     }
-    addToCart=()=>{
-        this.setState({
-            cartItems:this.state.cartItems.concat(product)
-        })
+    countSubtract=(item)=>{
+        let subtracted=this.state.dataCart;
+        for(let i=0;i<subtracted.length;i++){
+            if(item.product.item.ProdId===subtracted[i].product.item.ProdId){
+                if(subtracted[i].quantity>1){
+                    subtracted[i].quantity--;
+                }
+            }
+        }
+        this.setState({dataCart:subtracted});
+        AsyncStorage.getItem('cart').then((datacart)=>{
+            if (datacart !== null) {
+              const cart = JSON.parse(datacart);
+              AsyncStorage.setItem('cart',JSON.stringify(subtracted));
+            }
+          })
+          .catch((err)=>{
+            alert(err)
+          })
+    }
+    removeProduct=(datacart)=>{
+        let removed=this.state.dataCart;
+        for(let i=0;i<removed.length;i++){
+            if(datacart.product.item.ProdId===removed[i].product.item.ProdId){
+                removed.splice(i,1);
+            }
+        }
+        this.setState({dataCart:removed});
+        AsyncStorage.getItem('cart').then((datacart)=>{
+            if (datacart !== null) {
+              const cart = JSON.parse(datacart);
+              AsyncStorage.setItem('cart',JSON.stringify(removed));
+            }
+          })
+          .catch((err)=>{
+            alert(err)
+          })
     }
     render() {
         return (
             <View style={{backgroundColor:'white',flex:1}}>
                 <View style={styles.cartContainer}>
-                   {/* CART ITEM */}
-                    <View style={styles.cartItem}>
-                        <View style={styles.imageContainer}>
-                            <Image source={require('../../assets/images/products/can_bang_cam_xuc.jpg')} style={styles.productImage} resizeMode={'contain'}/>
-                        </View>
-
-                        <View style={styles.detailContainer}>
-                            <View style={styles.title}>
-                                <Text style={{fontSize:16}} numberOfLines={2}>
-                                    Bộ đánh dấu sách kim loại
-                                </Text>
-                                <Text style={{color:'red'}}>
-                                    62.000đ
-                                </Text>
-                                <Text style={{textDecorationLine: 'line-through',color:'#ccc'}}>
-                                    155.000đ
-                                </Text>
-                            </View>
-                            <View style={styles.btnContainer}>
-                                <View style={styles.btnCount}>
-                                    <TouchableOpacity onPress={()=>
-                                        {
-                                            this.countRemove(this.state.quantity)
-                                        }}>
-                                        <Icon name="md-remove" size={23} style={styles.iconRemove}/>
-                                    </TouchableOpacity>
-                                    <Text style={{height:30,width:40,textAlign:"center",fontSize:20,justifyContent:'center',backgroundColor:'#fffafa'}}>
-                                        {this.state.quantity}
-                                    </Text>
-                                    <TouchableOpacity onPress={()=>
-                                        {
-                                            this.countAdd(this.state.quantity)
-                                        }}>
-                                        <Icon name="md-add" size={23} style={styles.iconAdd}/>
-                                    </TouchableOpacity>
+                   <ScrollView key={item => item.product.item.ProdId} >
+                       {
+                           this.state.dataCart.map((item)=>{
+                           return(
+                            
+                                /* CART ITEM */
+                                <View style={styles.cartItem}>
+                                    <View style={styles.imageContainer}>
+                                        <Image source={{uri: 'http://mybook.maitrongvinh.tk/' + item.product.item.ImageURL}} style={styles.productImage} resizeMode={'contain'}/>
+                                    </View>
+    
+                                    <View style={styles.detailContainer}>
+                                        <View style={[styles.title,{flexDirection:'row'}]}>
+                                            <View style={styles.title}>
+                                                <Text style={{fontSize:16}} numberOfLines={2}>
+                                                    {/* Bộ đánh dấu sách kim loại */}
+                                                    {item.product.item.ProdName}
+                                                </Text>
+                                                <Text style={{color:'red'}}>
+                                                {item.product.item.Price}
+                                                </Text>
+                                                <Text style={{textDecorationLine: 'line-through',color:'#ccc'}}>
+                                                    155.000đ
+                                                </Text>
+                                               
+                                            </View>
+                                            <TouchableOpacity style={{paddingHorizontal:15}} onPress={()=>this.removeProduct(item)}>
+                                                    <Icon name="md-close" size={25}/>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={styles.btnContainer}>
+                                            <View style={styles.btnCount}>
+                                                <TouchableOpacity onPress={()=>
+                                                    {
+                                                        this.countSubtract(item)
+                                                    }}>
+                                                    <Icon name="md-remove" size={23} style={styles.iconRemove}/>
+                                                </TouchableOpacity>
+                                                <Text style={{height:30,width:40,textAlign:"center",fontSize:20,justifyContent:'center',backgroundColor:'#fffafa'}}>
+                                                    {JSON.stringify(item.quantity)}
+                                                </Text>
+                                                <TouchableOpacity onPress={()=>
+                                                    {
+                                                        this.countAdd(item)
+                                                    }}>
+                                                    <Icon name="md-add" size={23} style={styles.iconAdd}/>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
                                 </View>
-                            </View>
-                        </View>
-                    </View>
-                    {/* END CART ITEM */}
-                    <View style={{height:55,backgroundColor:'#eb5030',borderRadius:5,margin:10,justifyContent:'center'}}>
+                             /* END CART ITEM */
+                             )
+                         })
+                      
+                       }
+                    
+                   </ScrollView>
+                   
+                </View>
+                <View style={{height:55,backgroundColor:'#eb5030',borderRadius:5,margin:10,justifyContent:'center'}}>
                         <TouchableOpacity style={{width:"100%",height:"100%",justifyContent:'center'}}>
                             <Text style={{color:'white',textAlign:'center',fontSize:20,justifyContent:'center'}}>
                                 Thanh toán
                             </Text>
                         </TouchableOpacity>
-                    </View>
                 </View>
             </View>
         )
@@ -109,7 +208,8 @@ const styles=StyleSheet.create({
     },
     detailContainer:{
         flex:4,
-        backgroundColor:'blue'
+        backgroundColor:'blue',
+      
     },
     title:{
         flex:3,

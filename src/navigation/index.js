@@ -11,6 +11,7 @@ import DetailsScreen from '../screens/details/index';
 import ProfileScreen from '../screens/profile/index';
 import CartScreen from '../screens/cart';
 import ListProductsScreen from '../screens/listproducts';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
 
@@ -19,8 +20,8 @@ function AppNavigation(){
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen name="Base" component={BaseScreen} options={{headerShown: false}}/>
-                <Stack.Screen name="Login" component={LoginScreen}/>
-                <Stack.Screen name="Details" component={DetailsScreen}/>
+                <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+                <Stack.Screen name="Details" component={DetailsScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="Profile" component={ProfileScreen}/>
                 <Stack.Screen name="Cart" component={CartScreen} options={{title:'Giỏ hàng',headerStyle: {
             backgroundColor:'rgb(24, 158, 255)',

@@ -131,10 +131,10 @@ class CartScreen extends Component {
                                                     {item.product.item.ProdName}
                                                 </Text>
                                                 <Text style={{color:'red'}}>
-                                                {item.product.item.Price}
+                                                {item.product.item.Price*item.quantity}
                                                 </Text>
                                                 <Text style={{textDecorationLine: 'line-through',color:'#ccc'}}>
-                                                    155.000đ
+                                                    {parseInt(item.product.item.Price*item.quantity)+parseInt(item.product.item.Price*item.product.item.Discount/100)}
                                                 </Text>
                                                
                                             </View>

@@ -21,7 +21,7 @@ import {getAPIFromServer} from '../../networking/getAPI.js';
 // LINK API - DATA:JSON
 const apiGetAllProducts='http://mybook.maitrongvinh.tk/index.php/getproducts';
 
-const ProductItem = ({image, name, price}) => (
+const ProductItem = ({image, name, price,discount}) => (
   <View style={styles.itemContainer}>
     <Image
       source={{uri: 'http://mybook.maitrongvinh.tk/' + image}}
@@ -31,8 +31,10 @@ const ProductItem = ({image, name, price}) => (
       {name}
     </Text>
     <Text style={styles.itemPrice}>{price}</Text>
+    <Text style={{color:'#ccc',textDecorationLine: 'line-through'}}>{discount}</Text>
   </View>
 );
+
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -58,7 +60,9 @@ class HomeScreen extends Component {
         this.setState({productsFromServer: []});
       });
   };
-
+  discounted=(price,discount)=>{
+    return parseInt(price)+parseInt(price*discount/100);
+  }
   render() {
     return (
       <ScrollView
@@ -134,6 +138,7 @@ class HomeScreen extends Component {
                   name={item.item.ProdName}
                   price={item.item.Price}
                   parentFlashlist={this}
+                  discount={this.discounted(item.item.Price,item.item.Discount)}
                   />
                 </TouchableOpacity>
               );
@@ -326,7 +331,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
   },
   iconSearchBar: {
-    bottom: 2,
+    bottom: 0,
   },
   inputSearchBar: {
     flex: 6,
@@ -348,8 +353,8 @@ const styles = StyleSheet.create({
   productsTop:{
     borderTopLeftRadius:15,
     borderBottomLeftRadius:15,
-    
-    marginLeft:15
+    backgroundColor:'white',
+    paddingLeft:15
   },
   productsHeader:{
     flexDirection:'row',

@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {getAPIFromServer} from '../../networking/getAPI.js';
 
-const ProductItem = ({image, name, price,item}) => (
+const ProductItem = ({image, name, price,item,description}) => (
     <View style={{flex:1}}>
         <View style={styles.header}>
 
@@ -123,9 +123,9 @@ class DetailsScreen extends Component {
                                 
                             // />
                             <View style={{flex:1}}>
-                            <View style={styles.header}>
-                    
-                            </View>
+                                <View style={styles.header}>
+                        
+                                </View>
                             <View>
                                 <View>
                                     <Image source={{uri: 'http://mybook.maitrongvinh.tk/' + item.item.ImageURL}} style={{height:300,width:'100%'}} resizeMode={'contain'}/>
@@ -144,6 +144,16 @@ class DetailsScreen extends Component {
                                     </Text>
                                 </View>
                             </View>
+
+                            <View style={{paddingVertical:10}}>
+                                <View style={{width:'90%',marginHorizontal:15,borderBottomColor:'black',borderBottomWidth:1}}>
+                                    <Text style={{paddingVertical:10}}>Mô tả:</Text>
+                                </View>
+                                <Text style={{width:'90%',paddingHorizontal:15}}>
+                                    {item.item.Des}
+                                </Text>
+                            </View>
+
                             <TouchableOpacity style={styles.footer} onPress={()=>this.onClickAddCart(item)}>
                                 <View style={{flex:1,backgroundColor:'#f1172f',justifyContent:'center',alignItems:'center',borderRadius:5}}>
                                     <Text style={{color:'white',fontSize:16,fontFamily:'Roboto-Bold'}}>

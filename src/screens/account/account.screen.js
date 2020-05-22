@@ -13,7 +13,7 @@ class AccountScreen extends Component {
         return (
             <View style={{flex:1,backgroundColor:'white'}}>
                 <View style={styles.container}>
-                    <TouchableOpacity style={styles.welcomeContainer} onPress={()=>{this.props.navigation.navigate('Login')}}>
+                    <TouchableOpacity style={styles.welcomeContainer} onPress={()=>{this.props.navigation.navigate('GroupLogin')}}>
                         <View style={styles.iconAccountContainer}>
                             <View style={styles.circleIcon}>
                                 <Icon name="md-person" size={45} style={{color:'white'}}/>

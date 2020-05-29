@@ -17,7 +17,6 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {NavigationContainer} from '@react-navigation/native';
 import {getAPIFromServer} from '../../networking/getAPI.js';
-
 // LINK API - DATA:JSON
 const apiGetAllProducts='http://mybook.maitrongvinh.tk/index.php/getproducts';
 

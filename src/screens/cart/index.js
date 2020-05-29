@@ -20,24 +20,21 @@ class CartScreen extends Component {
             //   console.log(cartproduct.length);
               for(let i=0;i<cartproduct.length;i++){
                 //   console.log(cartproduct[i].product.item.ProdId);
-                    
                     if(typeof(cartproduct[i])==='object'){
                         for(let j=0;j<cartproduct.length;j++){
                             if(typeof(cartproduct[j])==='object'){
                                 if(i!=j&&typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
-                                    if(cartproduct[i].product.item.ProdId==cartproduct[j].product.item.ProdId){
+                                    if(cartproduct[i].product.ProdId==cartproduct[j].product.ProdId){
                                         if(typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
                                             cartproduct.splice(j,1);
                                             j--;
                                         }
-                                        
                                         if(typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
                                             // console.log(typeof(cartproduct[i]));
                                             cartproduct[i].quantity++;
                                         }
                                     }
                                 }
-                                // console.log(j);
                             }
                         }
                     }
@@ -55,7 +52,7 @@ class CartScreen extends Component {
     countAdd=(item)=>{
        let added=this.state.dataCart;
        for(let i=0;i<added.length;i++){
-            if(item.product.item.ProdId===added[i].product.item.ProdId){
+            if(item.product.ProdId===added[i].product.ProdId){
                 added[i].quantity++;
             }
         }
@@ -73,7 +70,7 @@ class CartScreen extends Component {
     countSubtract=(item)=>{
         let subtracted=this.state.dataCart;
         for(let i=0;i<subtracted.length;i++){
-            if(item.product.item.ProdId===subtracted[i].product.item.ProdId){
+            if(item.product.ProdId===subtracted[i].product.ProdId){
                 if(subtracted[i].quantity>1){
                     subtracted[i].quantity--;
                 }
@@ -93,7 +90,7 @@ class CartScreen extends Component {
     removeProduct=(datacart)=>{
         let removed=this.state.dataCart;
         for(let i=0;i<removed.length;i++){
-            if(datacart.product.item.ProdId===removed[i].product.item.ProdId){
+            if(datacart.product.ProdId===removed[i].product.ProdId){
                 removed.splice(i,1);
             }
         }
@@ -112,7 +109,7 @@ class CartScreen extends Component {
         return (
             <View style={{backgroundColor:'white',flex:1}}>
                 <View style={styles.cartContainer}>
-                   <ScrollView key={item => item.product.item.ProdId} >
+                   <ScrollView key={item => item.product.ProdId} >
                        {
                            this.state.dataCart.map((item)=>{
                            return(
@@ -120,7 +117,7 @@ class CartScreen extends Component {
                                 /* CART ITEM */
                                 <View style={styles.cartItem}>
                                     <View style={styles.imageContainer}>
-                                        <Image source={{uri: 'http://mybook.maitrongvinh.tk/' + item.product.item.ImageURL}} style={styles.productImage} resizeMode={'contain'}/>
+                                        <Image source={{uri: 'http://mybook.maitrongvinh.tk/' + item.product.ImageURL}} style={styles.productImage} resizeMode={'contain'}/>
                                     </View>
     
                                     <View style={styles.detailContainer}>
@@ -128,13 +125,13 @@ class CartScreen extends Component {
                                             <View style={styles.title}>
                                                 <Text style={{fontSize:16}} numberOfLines={2}>
                                                     {/* Bộ đánh dấu sách kim loại */}
-                                                    {item.product.item.ProdName}
+                                                    {item.product.ProdName}
                                                 </Text>
                                                 <Text style={{color:'red'}}>
-                                                {item.product.item.Price*item.quantity}
+                                                {item.product.Price*item.quantity}
                                                 </Text>
                                                 <Text style={{textDecorationLine: 'line-through',color:'#ccc'}}>
-                                                    {parseInt(item.product.item.Price*item.quantity)+parseInt(item.product.item.Price*item.product.item.Discount/100)}
+                                                    {parseInt(item.product.Price*item.quantity)+parseInt(item.product.Price*item.product.Discount/100)}
                                                 </Text>
                                                
                                             </View>

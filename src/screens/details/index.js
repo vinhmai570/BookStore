@@ -154,19 +154,23 @@ class DetailsScreen extends Component {
                                 </Text>
                             </View>
 
-                            <TouchableOpacity style={styles.footer} onPress={()=>this.onClickAddCart(item)}>
-                                <View style={{flex:1,backgroundColor:'#f1172f',justifyContent:'center',alignItems:'center',borderRadius:5}}>
-                                    <Text style={{color:'white',fontSize:16,fontFamily:'Roboto-Bold'}}>
-                                        Chọn Mua
-                                    </Text>
-                                </View>
-                            </TouchableOpacity> 
+                            
                         </View>
                             )
                     }}
                     keyExtractor={item => item.ProdId}
                     showsHorizontalScrollIndicator={false}
                     />
+                    <TouchableOpacity style={styles.footer} onPress={()=>this.onClickAddCart(this.state.productById[0])}>
+                                <View style={{flex:1,backgroundColor:'#f1172f',justifyContent:'center',alignItems:'center',borderRadius:5}}>
+                                    <Text style={{color:'white',fontSize:16,fontFamily:'Roboto-Bold'}}>
+                                        Chọn Mua
+                                    </Text>
+                                </View>
+                    </TouchableOpacity> 
+                    {/* <TouchableOpacity onPress={()=>{console.log(this.state.productById[0].ProdName)}}>
+                        <Text>LOG CONSOLE</Text>
+                    </TouchableOpacity> */}
                 </View>
         )
     }
@@ -177,7 +181,6 @@ const styles=StyleSheet.create({
 
     },
     footer:{
-      flex:1,
       backgroundColor:'white',
       padding:10,
       height:60

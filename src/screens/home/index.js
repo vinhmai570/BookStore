@@ -62,6 +62,7 @@ class HomeScreen extends Component {
   discounted=(price,discount)=>{
     return parseInt(price)+parseInt(price*discount/100);
   }
+
   render() {
     return (
       <ScrollView
@@ -119,7 +120,7 @@ class HomeScreen extends Component {
         <View style={styles.allProducts}>
           <View style={styles.productsHeader}>
             <Text style={styles.productsText}>Sản phẩm giảm giá</Text>
-            <TouchableOpacity style={styles.productViewAll} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
+            <TouchableOpacity style={styles.btnViewAllProduct} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
               <Text style={{fontSize:18,color:'white', paddingHorizontal:20}}>Xem tất cả</Text>
             </TouchableOpacity>
           </View>
@@ -160,20 +161,20 @@ class HomeScreen extends Component {
             <View style={styles.enBooksContainer}>
               <View style={styles.enBooksContent}>
                 <TouchableOpacity style={{flex: 1}}>
-                  <View style={styles.cateItem_header}>
-                    <Text style={styles.cateText_header}>English Books</Text>
-                    <Text style={styles.cateText_content}>15 Sản phẩm</Text>
+                  <View style={styles.cateItemHeader}>
+                    <Text style={styles.cateTextHeader}>English Books</Text>
+                    <Text style={styles.cateTextContent}>15 Sản phẩm</Text>
                   </View>
-                  <View style={styles.enBooksImg_container}>
+                  <View style={styles.enBooksImgContainer}>
                     <Image
                       source={require('../../assets/images/categories/enBooks_1.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooksImg_item}
+                      style={styles.enBooksImgItem}
                     />
                     <Image
                       source={require('../../assets/images/categories/enBooks_2.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooksImg_item}
+                      style={styles.enBooksImgItem}
                     />
                   </View>
                 </TouchableOpacity>
@@ -182,25 +183,25 @@ class HomeScreen extends Component {
             <View style={styles.viBooksContainer}>
               <View style={styles.viBooksContent}>
                 <TouchableOpacity style={{flex: 1}}>
-                  <View style={styles.cateItem_header}>
-                    <Text style={[styles.cateText_header, {color: '#515f9d'}]}>
+                  <View style={styles.cateItemHeader}>
+                    <Text style={[styles.cateTextHeader, {color: '#515f9d'}]}>
                       Sách Tiếng Việt
                     </Text>
                     <Text
-                      style={[styles.cateText_content, {color: '#515f9d'}]}>
+                      style={[styles.cateTextContent, {color: '#515f9d'}]}>
                       19 Sản phẩm
                     </Text>
                   </View>
-                  <View style={styles.enBooksImg_container}>
+                  <View style={styles.enBooksImgContainer}>
                     <Image
                       source={require('../../assets/images/categories/viBooks_1.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooksImg_item}
+                      style={styles.enBooksImgItem}
                     />
                     <Image
                       source={require('../../assets/images/categories/viBooks_2.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooksImg_item}
+                      style={styles.enBooksImgItem}
                     />
                   </View>
                 </TouchableOpacity>
@@ -212,24 +213,24 @@ class HomeScreen extends Component {
               <View style={styles.stationeryContent}>
                 <TouchableOpacity style={{flex: 1}}>
                   <View style={styles.cateItem_header}>
-                    <Text style={[styles.cateText_header, {color: '#ad1913'}]}>
+                    <Text style={[styles.cateTextHeader, {color: '#ad1913'}]}>
                       Văn phòng phẩm
                     </Text>
                     <Text
-                      style={[styles.cateText_content, {color: '#ad1913'}]}>
+                      style={[styles.cateTextContent, {color: '#ad1913'}]}>
                       25 Sản phẩm
                     </Text>
                   </View>
-                  <View style={styles.enBooksImg_container}>
+                  <View style={styles.enBooksImgContainer}>
                     <Image
                       source={require('../../assets/images/categories/stationery_1.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooksImg_item}
+                      style={styles.enBooksImgItem}
                     />
                     <Image
                       source={require('../../assets/images/categories/stationery_2.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooksImg_item}
+                      style={styles.enBooksImgItem}
                     />
                   </View>
                 </TouchableOpacity>
@@ -239,24 +240,24 @@ class HomeScreen extends Component {
               <View style={styles.souvenirContent}>
                 <TouchableOpacity style={{flex: 1}}>
                   <View style={styles.cateItem_header}>
-                    <Text style={[styles.cateText_header, {color: '#246223'}]}>
+                    <Text style={[styles.cateTextHeader, {color: '#246223'}]}>
                       Quà lưu niệm
                     </Text>
                     <Text
-                      style={[styles.cateText_content, {color: '#246223'}]}>
+                      style={[styles.cateTextContent, {color: '#246223'}]}>
                       43 Sản phẩm
                     </Text>
                   </View>
-                  <View style={styles.enBooksImg_container}>
+                  <View style={styles.enBooksImgContainer}>
                     <Image
                       source={require('../../assets/images/categories/souvenir_1.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooksImg_item}
+                      style={styles.enBooksImgItem}
                     />
                     <Image
                       source={require('../../assets/images/categories/souvenir_2.jpg')}
                       resizeMode={'contain'}
-                      style={styles.enBooksImg_item}
+                      style={styles.enBooksImgItem}
                     />
                   </View>
                 </TouchableOpacity>
@@ -270,7 +271,7 @@ class HomeScreen extends Component {
         <View style={styles.allProducts}>
           <View style={styles.productsHeader}>
             <Text style={styles.productsText}>Tất cả sản phẩm</Text>
-            <TouchableOpacity style={styles.productViewAll} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
+            <TouchableOpacity style={styles.btnViewAllProduct} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
               <Text style={{fontSize:18,color:'white', paddingHorizontal:20}}>Xem tất cả</Text>
             </TouchableOpacity>
           </View>
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     alignItems:'center'
   },
-  productViewAll:{
+  btnViewAllProduct:{
     fontSize:20
   },
   productsText:{
@@ -441,12 +442,12 @@ const styles = StyleSheet.create({
   cateItem_header: {
     flex: 4,
   },
-  enBooksImg_container: {
+  enBooksImgContainer: {
     flex: 5,
     flexDirection: 'row',
     marginBottom: 10,
   },
-  enBooksImg_item: {
+  enBooksImgItem: {
     height: '100%',
     width: '100%',
     flex: 1,
@@ -455,7 +456,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '130%',
   },
-  cateText_header: {
+  cateTextHeader: {
     fontFamily: 'AntDesign',
     fontSize: 16,
     paddingTop: 10,
@@ -464,7 +465,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     //color:#515f9d,
   },
-  cateText_content: {
+  cateTextContent: {
     paddingTop: 5,
     paddingLeft: 10,
     color: '#997b43',

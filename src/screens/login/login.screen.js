@@ -19,10 +19,13 @@ class LoginScreen extends Component {
                             style={styles.inputUserName}
                             placeholder="Email/Số điện thoại"
                             clearButtonMode="always"
+                            onSubmitEditing={()=>{this.refs.password.focus();}}
+                            autoFocus={true}
                         />
                     </View>
                     <View style={styles.passWord}>
                         <TextInput
+                            ref={'password'}
                             style={styles.inputPassWord}
                             placeholder="Mật khẩu"
                             clearButtonMode="always"

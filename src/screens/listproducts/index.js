@@ -7,8 +7,11 @@ import { Text,
      Image,
      TouchableOpacity,
      FlatList,
-     RefreshControl
+     RefreshControl,
+     TextInput
 } from 'react-native';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 import {getAPIFromServer} from '../../networking/getAPI.js';
 var {height,width}= Dimensions.get("window");
 
@@ -54,8 +57,31 @@ class ListProductsScreen extends Component {
 
     render() {
         return (
-            <View>
+            <View style={{flex:1}}>
                 {/* <ScrollView> */}
+                     {/* HEADER */}
+                    <View style={{flex:1}}>
+                        <View style={styles.header}>
+                            <TouchableOpacity style={{flex:1,alignItems:'center',justifyContent:'center'}} onPress={()=>{this.props.navigation.goBack()}}>
+                                <Icon name="md-arrow-back" size={25} color="white" />
+                            </TouchableOpacity>
+                            <View style={styles.searchBar}>
+                            <Icon name="md-search" size={25} style={styles.iconSearchBar} />
+                            <TextInput
+                                style={styles.inputSearchBar}
+                                placeholder="Bạn cần tìm sách gì?"
+                                clearButtonMode="always"
+                            />
+                            </View>
+                            <View style={styles.cart}>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate('Cart')}>
+                                <Icon name="md-cart" size={30} color={'white'} />
+                            </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                    {/* END HEADER */}
                     <View style={styles.container}>
                         {/* <View style={styles.product}>
                             <View style={styles.imageContainer}>
@@ -103,7 +129,43 @@ class ListProductsScreen extends Component {
 }
 export default ListProductsScreen;
 const styles=StyleSheet.create({
+    header: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor:'rgb(24, 158, 255)',
+        
+      },
+      searchBar: {
+        flex: 7,
+        alignItems: 'flex-start',
+        position: 'relative',
+        justifyContent:'space-around',
+        zIndex: 1,
+        borderColor: 'gray',
+        height: 40,
+        borderWidth: 1,
+        borderRadius: 5,
+        margin: 10,
+        padding: 10,
+        backgroundColor:'white',
+      },
+      iconSearchBar: {
+        bottom: 0,
+      },
+      inputSearchBar: {
+        flex: 6,
+        position: 'absolute',
+        marginLeft: 30,
+        height: 40,
+        width: (width * 6) / 8 + 5,
+      },
+      cart: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
     container:{
+        flex:11,
         flexDirection:"row",
         flexWrap:'wrap',
         backgroundColor:'white',

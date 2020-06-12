@@ -28,7 +28,7 @@ function AppNavigation(){
           },
           headerTintColor: '#fff', 
           }}/>
-                <Stack.Screen name="ListProducts" component={ListProductsScreen}/>
+                <Stack.Screen name="ListProducts" component={ListProductsScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="GroupLogin" component={GroupLogin} options={{title:'Đăng nhập / Đăng ký',headerStyle: {
             backgroundColor:'rgb(24, 158, 255)',
           },

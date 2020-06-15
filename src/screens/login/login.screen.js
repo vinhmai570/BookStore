@@ -8,7 +8,7 @@ const URL='http://mybook.maitrongvinh.tk/index.php/login/logintoken';
 class LoginScreen extends Component {
     constructor(props){
         super(props);
-        state={
+        this.state={
             checkLogin:false,
             userName:'',
             passWord:'',
@@ -23,9 +23,7 @@ class LoginScreen extends Component {
         navigation.goBack();
         route.params.checkLogin({ checkLogin: true });
     }
-    logIn= ()=>{
-        let username=this.state.userName;
-        let password=this.state.passWord;
+    logIn= (username,password)=>{
         if(username==""||password==""){
             alert("Vui lòng nhập đủ thông tin!");
         }
@@ -80,7 +78,7 @@ class LoginScreen extends Component {
                         />                    
                     </View>
                     <View style={styles.btnLoginContainer}>
-                        <TouchableOpacity style={styles.btnLogin} onPress={()=>{ this.logIn()}}>
+                        <TouchableOpacity style={styles.btnLogin} onPress={()=>{this.logIn(this.state.userName,this.state.passWord)}}>
                             <Text style={{color:'white',fontSize:18}}>
                                 ĐĂNG NHẬP
                             </Text>

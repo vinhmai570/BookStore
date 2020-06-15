@@ -2,14 +2,60 @@ import React, { Component } from 'react'
 import { Text, View,StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
 
+const URL='http://mybook.maitrongvinh.tk/index.php/login/logintoken';
 class LoginScreen extends Component {
     constructor(props){
         super(props);
-        state:{
-            checkLogin=false;
+        state={
+            checkLogin:false,
+            userName:'',
+            passWord:'',
+            token:'...'
         }
     }
+    componentDidMount(){
+        
+    }
+    goBack() {
+        const { navigation, route } = this.props;
+        navigation.goBack();
+        route.params.checkLogin({ checkLogin: true });
+    }
+    logIn=()=>{
+        let username=this.state.userName;
+        let password=this.state.passWord;
+        if(username==""||password==""){
+            alert("Vui lòng nhập đủ thông tin!");
+        }
+        else{
+            fetch(URL,{method:"POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body:JSON.stringify({UserName:username,PassWord:password})})
+            .then((response)=>response.json())
+            .then((responseData)=>{
+                if(responseData.token=="ERROR"){
+                    alert("Tài khoản không tồn tại")
+                }
+                else{
+                    // alert(responseData.token);
+                    console.log(responseData);
+                    this.setState({checkLogin:true});
+                    AsyncStorage.setItem('token',responseData.token);
+                    AsyncStorage.setItem('email',responseData.email);
+                    AsyncStorage.setItem('fullname',responseData.fullname);
+                    AsyncStorage.setItem('groupid',responseData.groupid);
+                    AsyncStorage.setItem('id',responseData.id);
+                    this.props.navigation.navigate('Account');
+                }
+            })
+            .done()
+        }
+      }
     render() {
         return (
             <View style={{flex:1}}>
@@ -19,8 +65,8 @@ class LoginScreen extends Component {
                             style={styles.inputUserName}
                             placeholder="Email/Số điện thoại"
                             clearButtonMode="always"
-                            onSubmitEditing={()=>{this.refs.password.focus();}}
                             autoFocus={true}
+                            onChangeText={(userName) => this.setState({userName}) }onSubmitEditing={()=>{this.refs.password.focus();}}
                         />
                     </View>
                     <View style={styles.passWord}>
@@ -30,10 +76,11 @@ class LoginScreen extends Component {
                             placeholder="Mật khẩu"
                             clearButtonMode="always"
                             secureTextEntry={true}
+                            onChangeText={(passWord) => this.setState({passWord}) }
                         />                    
                     </View>
                     <View style={styles.btnLoginContainer}>
-                        <TouchableOpacity style={styles.btnLogin} onPress={()=>{this.props.navigation.navigate('Home')}}>
+                        <TouchableOpacity style={styles.btnLogin} onPress={()=>{ this.logIn()}}>
                             <Text style={{color:'white',fontSize:18}}>
                                 ĐĂNG NHẬP
                             </Text>

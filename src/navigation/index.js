@@ -22,7 +22,11 @@ function AppNavigation(){
                 <Stack.Screen name="Base" component={BaseScreen} options={{headerShown: false}}/>
                 {/* <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/> */}
                 <Stack.Screen name="Details" component={DetailsScreen} options={{headerShown: false}}/>
-                <Stack.Screen name="Profile" component={ProfileScreen}/>
+                <Stack.Screen name="Profile" component={ProfileScreen} options={{title:'Thông tin cá nhân',headerStyle: {
+            backgroundColor:'rgb(24, 158, 255)',
+          },
+          headerTintColor: '#fff', 
+          }}/>
                 <Stack.Screen name="Cart" component={CartScreen} options={{title:'Giỏ hàng',headerStyle: {
             backgroundColor:'rgb(24, 158, 255)',
           },

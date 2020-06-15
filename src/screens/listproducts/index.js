@@ -16,6 +16,8 @@ import {getAPIFromServer} from '../../networking/getAPI.js';
 var {height,width}= Dimensions.get("window");
 
 const apiGetAllProducts='http://mybook.maitrongvinh.tk/index.php/getproducts';
+const apiSearchByName='http://mybook.maitrongvinh.tk/getproducts/searchproduct/';
+
 const ProductItem = ({image, name, price}) => (
     <View style={styles.product}>
         <View style={styles.imageContainer}>
@@ -33,6 +35,7 @@ class ListProductsScreen extends Component {
         this.state = {
             refreshing:false,
             productsFromServer: [],
+            notfound:''
         };
       }
     componentDidMount() {
@@ -54,7 +57,22 @@ class ListProductsScreen extends Component {
     onRefresh=()=>{
         this.refreshDataFromServer();
     }
-
+    searchByName=(name)=>{
+        // console.log(name);
+        if(name!=''){
+            this.setState({refreshing:true});
+            getAPIFromServer(apiSearchByName+name)
+            .then(products => {
+            // console.log(products);
+            this.setState({productsFromServer: products});
+            this.setState({refreshing:false});
+            })
+            .catch(error => {
+            this.setState({productsFromServer: []});
+            this.setState({refreshing:false});
+            });
+        }
+    }
     render() {
         return (
             <View style={{flex:1}}>
@@ -71,6 +89,8 @@ class ListProductsScreen extends Component {
                                 style={styles.inputSearchBar}
                                 placeholder="Bạn cần tìm sách gì?"
                                 clearButtonMode="always"
+                                // onSubmitEditing={(name)=>{this.searchByName(name)}}
+                                onChangeText={(name) => this.searchByName(name) }
                             />
                             </View>
                             <View style={styles.cart}>
@@ -92,6 +112,11 @@ class ListProductsScreen extends Component {
                                 <Text style={{color:'red',marginTop:6}}>99000 đ</Text>
                             </View>
                         </View> */}
+                         <View>
+                            <Text style={{fontSize:20,textAlign:'center',justifyContent:'center'}}>
+                                {this.state.notfound}
+                            </Text>
+                        </View>
                         <FlatList
                             style={[styles.productsTop,{flexWrap:'wrap',width:width,flexDirection:'row'}]}
                             ref={'flashlist'}
@@ -165,7 +190,7 @@ const styles=StyleSheet.create({
         justifyContent: 'center',
       },
     container:{
-        flex:11,
+        flex:10,
         flexDirection:"row",
         flexWrap:'wrap',
         backgroundColor:'white',

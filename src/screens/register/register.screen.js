@@ -63,7 +63,6 @@ export default class RegisterScreen extends Component {
                             style={styles.inputPassWord}
                             placeholder="Họ tên"
                             clearButtonMode="always"
-                            secureTextEntry={true}
                             onChangeText={(fullName) => this.setState({fullName}) }
                         />                    
                     </View>

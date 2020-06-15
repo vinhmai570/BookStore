@@ -1,94 +1,229 @@
 import React, { Component } from 'react'
 import { Text, View,StyleSheet } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 import Login from '../login';
 import Profile from '../profile';
 
 class AccountScreen extends Component {
-
-    render() {
-        return (
-            <View style={{flex:1,backgroundColor:'white'}}>
-                <View style={styles.container}>
-                    <TouchableOpacity style={styles.welcomeContainer} onPress={()=>{this.props.navigation.navigate('GroupLogin')}}>
-                        <View style={styles.iconAccountContainer}>
-                            <View style={styles.circleIcon}>
-                                <Icon name="md-person" size={45} style={{color:'white'}}/>
-                            </View>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={{color:'gray'}}>
-                                Chào mừng bạn đến với MyBook
-                            </Text>
-                            <Text style={styles.textLogin}>
-                                Đăng nhập/Đăng ký
-                            </Text>
-                        </View>
-                        <View style={styles.iconNextContainer}>
-                            <Icon name="md-play" size={20} style={{color:'gray'}}/>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={{height:10,backgroundColor:'#f7f7f7'}}></View>
-                   
-                    <TouchableOpacity style={styles.itemContainer}>
-                        <View style={styles.iconContainer}>
-                            <Icon name="md-list" size={25} style={{color:'gray'}}/>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={{fontFamily:'Ronoto-Light',fontWeight:'100'}}>
-                                Quản lý đơn hàng
-                            </Text>
-                        </View>
-                        <View style={styles.iconNextContainer}>
-                            <Icon name="md-play" size={20} style={{color:'gray'}}/>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.itemContainer}>
-                        <View style={styles.iconContainer}>
-                            <Icon name="md-cart" size={25} style={{color:'gray'}}/>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={{fontFamily:'Ronoto-Light'}}>
-                                Sản phẩm đã mua
-                            </Text>
-                        </View>
-                        <View style={styles.iconNextContainer}>
-                            <Icon name="md-play" size={20} style={{color:'gray'}}/>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.itemContainer}>
-                        <View style={styles.iconContainer}>
-                            <Icon name="md-eye" size={25} style={{color:'gray'}}/>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={{fontFamily:'Ronoto-Light'}}>
-                                Sản phẩm đã xem
-                            </Text>
-                        </View>
-                        <View style={styles.iconNextContainer}>
-                            <Icon name="md-play" size={20} style={{color:'gray'}}/>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.itemContainer}>
-                        <View style={styles.iconContainer}>
-                            <Icon name="md-heart" size={25} style={{color:'gray'}}/>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={{fontFamily:'Ronoto-Light'}}>
-                                Sản phẩm yêu thích
-                            </Text>
-                        </View>
-                        <View style={styles.iconNextContainer}>
-                            <Icon name="md-play" size={20} style={{color:'gray'}}/>
-                        </View>
-                    </TouchableOpacity>
-
-                </View>
-            </View>
+    constructor(props){
+        super(props);
+        this.state={
+            checkLogin:false,
+        };
+        // this.checkToken();
+    }
+    componentDidMount(){
+        // this.checkToken();
+        this._checkToken = this.props.navigation.addListener('focus', () => {
+            // do something
+            this.checkToken();
+          });
+    }
+    componentWillUnmount(){
+        this._checkToken();
+    }
+    checkToken = async ()=>{
+        await AsyncStorage.getItem('token').then(
+            res=>{
+                if(res){
+                    this.setState({checkLogin:true});
+                    console.log("Day la token");
+                    console.log(res);
+                }
+            }
         )
+    }
+    logOut = async ()=>{
+        await AsyncStorage.removeItem('token').then(
+            res => {
+                this.props.navigation.navigate('GroupLogin');
+                this.setState({checkLogin:false});
+            }
+        )
+    }
+    checkTokenTest= async ()=>{
+        console.log("CLICK");
+        await AsyncStorage.getItem('token').then(
+            res=>{
+                if(res){
+                    console.log(res);
+                }
+            }
+        )
+    }
+    render() {
+        if(this.state.checkLogin==true){
+            return (
+                <View style={{flex:1,backgroundColor:'white'}}>
+                    <View style={styles.container}>
+                        <TouchableOpacity style={styles.welcomeContainer} onPress={()=>{this.props.navigation.navigate('Profile')}}>
+                            <View style={styles.iconAccountContainer}>
+                                <View style={styles.circleIcon}>
+                                    <Icon name="md-person" size={45} style={{color:'white'}}/>
+                                </View>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{color:'gray'}}>
+                                    ADMIN
+                                </Text>
+                                <Text style={styles.textLogin}>
+                                    THONG TIN CA NHAN
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={{height:10,backgroundColor:'#f7f7f7'}}></View>
+                       
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-list" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light',fontWeight:'100'}}>
+                                    Quản lý đơn hàng
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-cart" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light'}}>
+                                    Sản phẩm đã mua
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-eye" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light'}}>
+                                    Sản phẩm đã xem
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-heart" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light'}}>
+                                    Sản phẩm yêu thích
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+    
+                    </View>
+                    <TouchableOpacity onPress={()=>this.logOut()} style={{height:50,backgroundColor:'#eb5030',justifyContent:"center",alignItems:'center',borderRadius:5,margin:10}}>
+                        <Text style={{color:'white'}}>
+                            ĐĂNG XUẤT
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+        else{
+            return (
+                <View style={{flex:1,backgroundColor:'white'}}>
+                    <View style={styles.container}>
+                        <TouchableOpacity style={styles.welcomeContainer} onPress={()=>{this.props.navigation.navigate('GroupLogin')}}>
+                            <View style={styles.iconAccountContainer}>
+                                <View style={styles.circleIcon}>
+                                    <Icon name="md-person" size={45} style={{color:'white'}}/>
+                                </View>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{color:'gray'}}>
+                                    Chào mừng bạn đến với MyBook
+                                </Text>
+                                <Text style={styles.textLogin}>
+                                    Đăng nhập/Đăng ký
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={{height:10,backgroundColor:'#f7f7f7'}}></View>
+                    
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-list" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light',fontWeight:'100'}}>
+                                    Quản lý đơn hàng
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-cart" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light'}}>
+                                    Sản phẩm đã mua
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-eye" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light'}}>
+                                    Sản phẩm đã xem
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-heart" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light'}}>
+                                    Sản phẩm yêu thích
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <Text onPress={()=>this.checkTokenTest()} >KIEM TRA TOKEN</Text>
+                </View>
+            )
+        }
     }
 }
 

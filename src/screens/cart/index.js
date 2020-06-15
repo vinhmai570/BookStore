@@ -10,44 +10,55 @@ class CartScreen extends Component {
         super(props);
         this.state={
             dataCart:[],
+            checkLogIn:false,
+            userId:0,
         }
     }
     componentDidMount(){
-        AsyncStorage.getItem('cart').then((cart)=>{
-            if (cart !== null) {
-              
-              const cartproduct = JSON.parse(cart);
-            //   console.log(cartproduct.length);
-              for(let i=0;i<cartproduct.length;i++){
-                //   console.log(cartproduct[i].product.item.ProdId);
-                    if(typeof(cartproduct[i])==='object'){
-                        for(let j=0;j<cartproduct.length;j++){
-                            if(typeof(cartproduct[j])==='object'){
-                                if(i!=j&&typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
-                                    if(cartproduct[i].product.ProdId==cartproduct[j].product.ProdId){
-                                        if(typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
-                                            cartproduct.splice(j,1);
-                                            j--;
-                                        }
-                                        if(typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
-                                            // console.log(typeof(cartproduct[i]));
-                                            cartproduct[i].quantity++;
+        this._checkToken = this.props.navigation.addListener('focus', () => {
+            // do something
+            this.getCartItem();
+            this.checkToken();            
+        });
+        console.log(this.state.checkLogIn);
+        // this.getCartItem();
+
+    }
+    getCartItem= async ()=>{
+            await AsyncStorage.getItem('cart').then((cart)=>{
+                if (cart !== null) {
+                  
+                  const cartproduct = JSON.parse(cart);
+                //   console.log(cartproduct.length);
+                  for(let i=0;i<cartproduct.length;i++){
+                    //   console.log(cartproduct[i].product.item.ProdId);
+                        if(typeof(cartproduct[i])==='object'){
+                            for(let j=0;j<cartproduct.length;j++){
+                                if(typeof(cartproduct[j])==='object'){
+                                    if(i!=j&&typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
+                                        if(cartproduct[i].product.ProdId==cartproduct[j].product.ProdId){
+                                            if(typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
+                                                cartproduct.splice(j,1);
+                                                j--;
+                                            }
+                                            if(typeof(cartproduct[i])==='object'&&typeof(cartproduct[j])==='object'){
+                                                // console.log(typeof(cartproduct[i]));
+                                                cartproduct[i].quantity++;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-              }
-            //  console.log(cartproduct.length);
-              this.setState({dataCart:cartproduct});
-              
-            }
-          })
-          .catch((err)=>{
-            alert(err)
-          })
-
+                  }
+                 console.log(cartproduct.length);
+                  this.setState({dataCart:cartproduct});
+                  
+                }
+              })
+              .catch((err)=>{
+                alert(err)
+              })
     }
     countAdd=(item)=>{
        let added=this.state.dataCart;
@@ -105,17 +116,37 @@ class CartScreen extends Component {
             alert(err)
           })
     }
+    checkToken = async ()=>{
+        await AsyncStorage.getItem('token').then(
+            res=>{
+                if(res){
+                    this.setState({checkLogIn:true});
+                    console.log("Kiem tra dang nhap");
+                    console.log(this.state.checkLogIn);
+                }
+            }
+        );
+        await AsyncStorage.getItem('userid').then(
+            res=>{
+                if(res){
+                    this.setState({userId:res});
+                    // console.log(this.state.userId);
+                }
+            }
+        )
+    }
     render() {
         return (
             <View style={{backgroundColor:'white',flex:1}}>
                 <View style={styles.cartContainer}>
-                   <ScrollView key={item => item.product.ProdId} >
+                   <ScrollView>
                        {
                            this.state.dataCart.map((item)=>{
-                           return(
+                           if(item.userId==this.state.userId&&this.state.checkLogIn==true){
+                            return(
                             
                                 /* CART ITEM */
-                                <View style={styles.cartItem}>
+                                <View style={styles.cartItem} key={item.product.ProdId}>
                                     <View style={styles.imageContainer}>
                                         <Image source={{uri: 'http://mybook.maitrongvinh.tk/' + item.product.ImageURL}} style={styles.productImage} resizeMode={'contain'}/>
                                     </View>
@@ -162,6 +193,7 @@ class CartScreen extends Component {
                                 </View>
                              /* END CART ITEM */
                              )
+                           }
                          })
                       
                        }

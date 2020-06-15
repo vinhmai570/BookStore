@@ -14,6 +14,8 @@ class AccountScreen extends Component {
         super(props);
         this.state={
             checkLogin:false,
+            fullName:'',
+            email:''
         };
         // this.checkToken();
     }
@@ -36,10 +38,33 @@ class AccountScreen extends Component {
                     console.log(res);
                 }
             }
+        );
+
+        await AsyncStorage.getItem('fullname').then(
+            res=>{
+                if(res){
+                    this.setState({fullName:res});
+                }
+            }
+        );
+
+        await AsyncStorage.getItem('email').then(
+            res=>{
+                if(res){
+                    this.setState({email:res});
+                }
+            }
         )
     }
     logOut = async ()=>{
-        await AsyncStorage.removeItem('token').then(
+        let keys = ['token', 'userid','email','fullname','groupid','cart'];
+        // await AsyncStorage.removeItem('token').then(
+        //     res => {
+        //         this.props.navigation.navigate('GroupLogin');
+        //         this.setState({checkLogin:false});
+        //     }
+        // )
+        await AsyncStorage.multiRemove(keys).then(
             res => {
                 this.props.navigation.navigate('GroupLogin');
                 this.setState({checkLogin:false});
@@ -68,11 +93,11 @@ class AccountScreen extends Component {
                                 </View>
                             </View>
                             <View style={styles.textContainer}>
-                                <Text style={{color:'gray'}}>
-                                    ADMIN
+                                <Text style={{fontSize:20,color:'rgb(24, 158, 255)'}}>
+                                    {this.state.fullName}
                                 </Text>
-                                <Text style={styles.textLogin}>
-                                    THONG TIN CA NHAN
+                                <Text style={{color:'gray',fontSize:12}}>
+                                    {this.state.email}
                                 </Text>
                             </View>
                             <View style={styles.iconNextContainer}>
@@ -220,7 +245,7 @@ class AccountScreen extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <Text onPress={()=>this.checkTokenTest()} >KIEM TRA TOKEN</Text>
+                    {/* <Text onPress={()=>this.checkTokenTest()} >KIEM TRA TOKEN</Text> */}
                 </View>
             )
         }

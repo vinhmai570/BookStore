@@ -23,7 +23,7 @@ class LoginScreen extends Component {
         navigation.goBack();
         route.params.checkLogin({ checkLogin: true });
     }
-    logIn=()=>{
+    logIn= ()=>{
         let username=this.state.userName;
         let password=this.state.passWord;
         if(username==""||password==""){
@@ -49,7 +49,7 @@ class LoginScreen extends Component {
                     AsyncStorage.setItem('email',responseData.email);
                     AsyncStorage.setItem('fullname',responseData.fullname);
                     AsyncStorage.setItem('groupid',responseData.groupid);
-                    AsyncStorage.setItem('id',responseData.id);
+                    AsyncStorage.setItem('userid',responseData.id);
                     this.props.navigation.navigate('Account');
                 }
             })

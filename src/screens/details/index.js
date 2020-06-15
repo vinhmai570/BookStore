@@ -45,12 +45,18 @@ class DetailsScreen extends Component {
         this.state={
             productById:[],
             id:props.route.params.id,
-            product:{}
+            product:{},
+            checkLogIn:false,
+            userId:0,
         }
     }
 
     componentDidMount(){
         this.refreshDataFromServer();
+        this._checkToken = this.props.navigation.addListener('focus', () => {
+            // do something
+            this.checkToken();
+          });
     }
     refreshDataFromServer = () => {
         const APIItem='http://mybook.maitrongvinh.tk/getproducts/getproductbyid/'+this.state.id;
@@ -64,32 +70,55 @@ class DetailsScreen extends Component {
           });
       };
       onClickAddCart = (data)=>{
-
-        const itemcart = {
-          product: data,
-          quantity:  1,
-          price: data.Price
+        if(this.state.checkLogIn==false){
+            alert('Vui Lòng đăng nhập!');
         }
-     
-        AsyncStorage.getItem('cart').then((datacart)=>{
-            if (datacart !== null) {
-              // We have data!!
-              const cart = JSON.parse(datacart);
-              
-              cart.push(itemcart)
-              AsyncStorage.setItem('cart',JSON.stringify(cart));
+        else{
+            const itemcart = {
+                product: data,
+                quantity:  1,
+                price: data.Price,
+                userId:this.state.userId
             }
-            else{
-              const cart  = []
-              cart.push(itemcart)
-              AsyncStorage.setItem('cart',JSON.stringify(cart));
-            }
-            alert("Thêm Thành Công")
-          })
-          .catch((err)=>{
-            alert(err)
-          })
+        
+            AsyncStorage.getItem('cart').then((datacart)=>{
+                if (datacart !== null) {
+                // We have data!!
+                const cart = JSON.parse(datacart);
+                
+                cart.push(itemcart)
+                AsyncStorage.setItem('cart',JSON.stringify(cart));
+                }
+                else{
+                const cart  = []
+                cart.push(itemcart)
+                AsyncStorage.setItem('cart',JSON.stringify(cart));
+                }
+                alert("Thêm Thành Công")
+            })
+            .catch((err)=>{
+                alert(err)
+            })
+        }
       }
+      checkToken= async ()=>{
+            await AsyncStorage.getItem('token').then(
+                res=>{
+                    if(res){
+                        this.setState({checkLogIn:true})
+                    }
+                }
+            );
+
+            await AsyncStorage.getItem('userid').then(
+                res=>{
+                    if(res){
+                        this.setState({userId:res})
+                        console.log(this.state.userId);
+                    }
+                }
+            )
+        }
     render() {
         // const dataJSON='[{"ProdId":"3","ProdName":"M\u00f3c kh\u00f3a m\u00e8o con ngoi ng\u00f3p","Des":"M\u00f3c kh\u00f3a m\u00e8o con ngoi ng\u00f3p","Price":"19000","Discount":"0","Quantity":"20","Rate":"5","ImageURL":"upload\/products\/moc_khoa_meo_con_ngoi_ngop.jpg","CateId":"4"}]';
         // const dataJSON=this.state.productById;

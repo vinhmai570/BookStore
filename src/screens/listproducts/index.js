@@ -57,8 +57,26 @@ class ListProductsScreen extends Component {
     onRefresh=()=>{
         this.refreshDataFromServer();
     }
+    removeDiacritics=(input)=>
+    {
+        var output = "";
+        var normalized = input.normalize("NFD");
+        var i=0;
+        var j=0;
+
+        while (i<input.length)
+        {
+            output += normalized[j];
+
+            j += (input[i] == normalized[j]) ? 1 : 2;
+            i++;
+        }
+        return output;    
+    }
     searchByName=(name)=>{
         // console.log(name);
+        name=name.trim();
+        name=this.removeDiacritics(name);
         if(name!=''){
             this.setState({refreshing:true});
             getAPIFromServer(apiSearchByName+name)

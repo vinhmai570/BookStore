@@ -13,14 +13,38 @@ export default class RegisterScreen extends Component {
             fullName:''
         }
     }
+    ValidateEmail=(email) =>
+    {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+        {
+            return (true)
+        }
+        // alert("You have entered an invalid email address!")
+        return (false)
+    }
     register=(email,username,password,fullname)=>{
-        fetch(URL,{method:"POST",body:JSON.stringify({Email:email,UserName:username,PassWord:password,FullName:fullname})})
-        .then((response)=>response.text())
-        .then((responseData)=>{
-          alert(responseData)
-        })
-        .done()
-      }
+        if(email==''||username==''||password==''||fullname==''){
+            alert("Vui lòng nhập đủ thông tin!")
+        }
+        else{
+            email=email.trim();
+            if(this.ValidateEmail(email)){
+                username=username.trim();
+                password=password.trim();
+                fullname=fullname.trim();
+                fetch(URL,{method:"POST",body:JSON.stringify({Email:email,UserName:username,PassWord:password,FullName:fullname})})
+                .then((response)=>response.text())
+                .then((responseData)=>{
+                alert(responseData)
+                })
+                .done()
+            }
+            else{
+                alert('Email không hợp lệ!');
+            }
+        }
+    }
+   
     render() {
         return (
             <View style={{flex:1}}>

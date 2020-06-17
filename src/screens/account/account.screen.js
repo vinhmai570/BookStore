@@ -17,12 +17,10 @@ class AccountScreen extends Component {
             fullName:'',
             email:''
         };
-        // this.checkToken();
     }
     componentDidMount(){
-        // this.checkToken();
         this._checkToken = this.props.navigation.addListener('focus', () => {
-            // do something
+            // check token 
             this.checkToken();
           });
     }
@@ -34,12 +32,11 @@ class AccountScreen extends Component {
             res=>{
                 if(res){
                     this.setState({checkLogin:true});
-                    console.log("Day la token");
-                    console.log(res);
+                    // console.log(res);
                 }
             }
         );
-
+        //update fullname
         await AsyncStorage.getItem('fullname').then(
             res=>{
                 if(res){
@@ -47,7 +44,7 @@ class AccountScreen extends Component {
                 }
             }
         );
-
+        //update email
         await AsyncStorage.getItem('email').then(
             res=>{
                 if(res){
@@ -58,12 +55,7 @@ class AccountScreen extends Component {
     }
     logOut = async ()=>{
         let keys = ['token', 'userid','email','fullname','groupid','cart'];
-        // await AsyncStorage.removeItem('token').then(
-        //     res => {
-        //         this.props.navigation.navigate('GroupLogin');
-        //         this.setState({checkLogin:false});
-        //     }
-        // )
+        //remove user info
         await AsyncStorage.multiRemove(keys).then(
             res => {
                 this.props.navigation.navigate('GroupLogin');

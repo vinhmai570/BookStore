@@ -12,13 +12,18 @@ class CartScreen extends Component {
             dataCart:[],
             checkLogIn:false,
             userId:0,
-        }
+            sum:0,
+        };
+        this.getSum(0);         
+
     }
     componentDidMount(){
         this._checkToken = this.props.navigation.addListener('focus', () => {
-            // do something
+            // get cart item
             this.getCartItem();
-            this.checkToken();            
+            
+            //check login and get userid
+            this.checkToken();   
         });
         console.log(this.state.checkLogIn);
         // this.getCartItem();
@@ -51,9 +56,10 @@ class CartScreen extends Component {
                             }
                         }
                   }
-                 console.log(cartproduct.length);
+                //  console.log(cartproduct.length);
                   this.setState({dataCart:cartproduct});
-                  
+                  this.getSum(0);         
+
                 }
               })
               .catch((err)=>{
@@ -77,6 +83,8 @@ class CartScreen extends Component {
           .catch((err)=>{
             alert(err)
           })
+          this.getSum(0);         
+
     }
     countSubtract=(item)=>{
         let subtracted=this.state.dataCart;
@@ -97,6 +105,7 @@ class CartScreen extends Component {
           .catch((err)=>{
             alert(err)
           })
+          this.getSum(0);         
     }
     removeProduct=(datacart)=>{
         let removed=this.state.dataCart;
@@ -115,6 +124,8 @@ class CartScreen extends Component {
           .catch((err)=>{
             alert(err)
           })
+          this.getSum(0);         
+
     }
     checkToken = async ()=>{
         await AsyncStorage.getItem('token').then(
@@ -135,16 +146,26 @@ class CartScreen extends Component {
             }
         )
     }
+    getSum= async (sum)=>{
+        await this.state.dataCart.map((item)=>{
+            sum+=parseInt(item.product.Price*item.quantity)+parseInt(item.product.Price*item.product.Discount/100*item.quantity);
+            console.log('soluong'+item.quantity);
+        })
+        await this.setState({sum:sum});
+        console.log(sum);
+    }
     render() {
         return (
             <View style={{backgroundColor:'white',flex:1}}>
                 <View style={styles.cartContainer}>
                    <ScrollView>
                        {
-                           this.state.dataCart.map((item)=>{
+                           this.state.dataCart.map((item)=>{ 
+                            //    let sum=0;
+                            //    sum+=parseInt(item.product.Price*item.quantity)+parseInt(item.product.Price*item.product.Discount/100);
                            if(item.userId==this.state.userId&&this.state.checkLogIn==true){
                             return(
-                            
+                                
                                 /* CART ITEM */
                                 <View style={styles.cartItem} key={item.product.ProdId}>
                                     <View style={styles.imageContainer}>
@@ -162,7 +183,7 @@ class CartScreen extends Component {
                                                 {item.product.Price*item.quantity}
                                                 </Text>
                                                 <Text style={{textDecorationLine: 'line-through',color:'#ccc'}}>
-                                                    {parseInt(item.product.Price*item.quantity)+parseInt(item.product.Price*item.product.Discount/100)}
+                                                    {parseInt(item.product.Price*item.quantity)+parseInt(item.product.Price*item.product.Discount/100*item.quantity)}
                                                 </Text>
                                                
                                             </View>
@@ -201,10 +222,16 @@ class CartScreen extends Component {
                    </ScrollView>
                    
                 </View>
-                <View style={{height:55,backgroundColor:'#eb5030',borderRadius:5,margin:10,justifyContent:'center'}}>
-                        <TouchableOpacity style={{width:"100%",height:"100%",justifyContent:'center'}}>
+                <View style={{height:55,backgroundColor:'white',borderRadius:5,marginBottom:30,marginHorizontal:10,justifyContent:'center'}}>
+                        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:20}}>
+                            <Text style={{color:'#eb5030'}}>Thành tiền</Text>
+                    <Text style={{fontSize:18,color:'#eb5030',fontFamily:'Roboto-Bold'}}>{this.state.sum}đ</Text>
+                        </View>
+                        <TouchableOpacity style={{width:"100%",height:"90%",justifyContent:'center',backgroundColor:'#eb5030'}} 
+                        onPress={()=>{if(this.state.dataCart.length>0){this.props.navigation.navigate('CheckOut',{dataCart:this.state.dataCart,userId:this.state.userId,sum:this.state.sum})} else {alert('Không có sản phẩm nào trong giỏ')}
+                       }}>
                             <Text style={{color:'white',textAlign:'center',fontSize:20,justifyContent:'center'}}>
-                                Thanh toán
+                                Tiến hành đặt hàng
                             </Text>
                         </TouchableOpacity>
                 </View>

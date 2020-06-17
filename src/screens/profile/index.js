@@ -56,7 +56,7 @@ class ProfileScreen extends Component {
                     <Text>Email</Text>
                     <Text style={{fontSize:18}}>{this.state.email}</Text>
                 </View>
-                
+                    
                 <TouchableOpacity style={{height:50,backgroundColor:'#eb5030',borderRadius:5,margin:20,justifyContent:'center',alignItems:'center',position:'absolute',bottom:-200}}>
                     <Text style={{fontSize:18,color:'white'}}>LƯU THAY ĐỔI</Text>
                 </TouchableOpacity>

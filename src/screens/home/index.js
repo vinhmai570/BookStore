@@ -40,6 +40,7 @@ class HomeScreen extends Component {
     super(props);
     this.state = {
       productsFromServer: [],
+      isFocusSearchBar:false,
     };
   }
   // _isMounted = false;
@@ -78,6 +79,7 @@ class HomeScreen extends Component {
                 style={styles.inputSearchBar}
                 placeholder="Bạn cần tìm sách gì?"
                 clearButtonMode="always"
+                onFocus={()=>{this.setState({isFocusSearchBar:true})}}
               />
             </View>
             <View style={styles.cart}>

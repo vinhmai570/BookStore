@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Text, View ,StyleSheet} from 'react-native';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 
 class OrderScreen extends Component {
     render() {
         return (
-            <View style={{flex:1,backgroundColor:'white'}}>
+            <ScrollView style={{flex:1,backgroundColor:'white'}}>
                 <View style={styles.header}>
                     <Text style={{fontSize:18,color:'#4e5552'}}>Đơn hàng trước</Text>
                 </View>
@@ -59,7 +59,7 @@ class OrderScreen extends Component {
 
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         )
     }
 }

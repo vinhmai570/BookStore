@@ -13,6 +13,7 @@ import CartScreen from '../screens/cart';
 import ListProductsScreen from '../screens/listproducts';
 import GroupLogin from '../screens/grouplogin';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import CheckOutScreen from '../screens/checkout';
 const Stack = createStackNavigator();
 
 function AppNavigation(){
@@ -34,6 +35,11 @@ function AppNavigation(){
           }}/>
                 <Stack.Screen name="ListProducts" component={ListProductsScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="GroupLogin" component={GroupLogin} options={{title:'Đăng nhập / Đăng ký',headerStyle: {
+            backgroundColor:'rgb(24, 158, 255)',
+          },
+          headerTintColor: '#fff', 
+          }}/>
+                <Stack.Screen name="CheckOut" component={CheckOutScreen} options={{title:'Thông tin đặt hàng',headerStyle: {
             backgroundColor:'rgb(24, 158, 255)',
           },
           headerTintColor: '#fff', 

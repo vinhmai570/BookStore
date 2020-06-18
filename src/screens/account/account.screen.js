@@ -17,6 +17,7 @@ class AccountScreen extends Component {
             fullName:'',
             email:'',
             userId:0,
+            groupid:0
         };
     }
     componentDidMount(){
@@ -63,7 +64,13 @@ class AccountScreen extends Component {
                 }
             }
         )
-        
+        await AsyncStorage.getItem('groupid').then(
+            res=>{
+                if(res){
+                    this.setState({groupid:res});
+                }
+            }
+        )
     }
     logOut = async ()=>{
         let keys = ['token', 'userid','email','fullname','groupid','cart'];
@@ -86,7 +93,7 @@ class AccountScreen extends Component {
         )
     }
     render() {
-        if(this.state.checkLogin==true){
+        if(this.state.checkLogin==true&&this.state.groupid==3){
             return (
                 <View style={{flex:1,backgroundColor:'white'}}>
                     <View style={styles.container}>
@@ -110,7 +117,7 @@ class AccountScreen extends Component {
                         </TouchableOpacity>
                         <View style={{height:10,backgroundColor:'#f7f7f7'}}></View>
                        
-                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('Order',{userId:this.state.userId})}}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('Order',{userId:this.state.userId,groupid:this.state.groupid})}}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-list" size={25} style={{color:'gray'}}/>
                             </View>
@@ -123,19 +130,81 @@ class AccountScreen extends Component {
                                 <Icon name="md-play" size={15} style={{color:'gray'}}/>
                             </View>
                         </TouchableOpacity>
-                        {/* <TouchableOpacity style={styles.itemContainer}>
+                        
+                        <TouchableOpacity style={styles.itemContainer}>
                             <View style={styles.iconContainer}>
-                                <Icon name="md-cart" size={25} style={{color:'gray'}}/>
+                                <Icon name="md-eye" size={25} style={{color:'gray'}}/>
                             </View>
                             <View style={styles.textContainer}>
                                 <Text style={{fontFamily:'Ronoto-Light'}}>
-                                    Sản phẩm đã mua
+                                    Sản phẩm đã xem
                                 </Text>
                             </View>
                             <View style={styles.iconNextContainer}>
                                 <Icon name="md-play" size={15} style={{color:'gray'}}/>
                             </View>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.itemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-heart" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light'}}>
+                                    Sản phẩm yêu thích
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+    
+                    </View>
+                    <TouchableOpacity onPress={()=>this.logOut()} style={{height:50,backgroundColor:'#eb5030',justifyContent:"center",alignItems:'center',borderRadius:5,margin:10}}>
+                        <Text style={{color:'white'}}>
+                            ĐĂNG XUẤT
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+        else if(this.state.checkLogin==true&&this.state.groupid==1){
+            return (
+                <View style={{flex:1,backgroundColor:'white'}}>
+                    <View style={styles.container}>
+                        <TouchableOpacity style={styles.welcomeContainer} onPress={()=>{this.props.navigation.navigate('Profile')}}>
+                            <View style={styles.iconAccountContainer}>
+                                <View style={styles.circleIcon}>
+                                    <Icon name="md-person" size={45} style={{color:'white'}}/>
+                                </View>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontSize:20,color:'rgb(24, 158, 255)'}}>
+                                    {this.state.fullName}
+                                </Text>
+                                <Text style={{color:'gray',fontSize:12}}>
+                                    {this.state.email}
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={{height:10,backgroundColor:'#f7f7f7'}}></View>
+                       
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('Order',{userId:this.state.userId,groupid:this.state.groupid})}}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="md-list" size={25} style={{color:'gray'}}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={{fontFamily:'Ronoto-Light',fontWeight:'100'}}>
+                                    Quản lý đơn hàng
+                                </Text>
+                            </View>
+                            <View style={styles.iconNextContainer}>
+                                <Icon name="md-play" size={15} style={{color:'gray'}}/>
+                            </View>
+                        </TouchableOpacity>
+                        
                         <TouchableOpacity style={styles.itemContainer}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-eye" size={25} style={{color:'gray'}}/>

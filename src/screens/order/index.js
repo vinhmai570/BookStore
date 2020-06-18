@@ -5,13 +5,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {getAPIFromServer} from '../../networking/getAPI';
 
-const apiGetOrders='http://mybook.maitrongvinh.tk/index.php/order/getorderbyuserid/';
 class OrderScreen extends Component {
     constructor(props){
         super(props);
         this.state={
             order:[],
             userId:props.route.params.userId,
+            groupId:props.route.params.groupid,
         };
 
     }
@@ -20,8 +20,8 @@ class OrderScreen extends Component {
         this._getUserInfo = this.props.navigation.addListener('focus', () => {
             // check token 
             this.getUserInfo();
-            this.refreshDataFromServer();
-          });
+            this.refreshDataFromServer()
+        });
     }
 
     getUserInfo=async ()=>{
@@ -30,9 +30,12 @@ class OrderScreen extends Component {
             console.log(userid);
         })
     }
-
     refreshDataFromServer = () => {
-        getAPIFromServer(apiGetOrders+this.state.userId)
+        let API='http://mybook.maitrongvinh.tk/index.php/order/getorderbyuserid/'+this.state.userId;
+        if(this.state.groupId==1){
+            API='http://mybook.maitrongvinh.tk/index.php/order/';
+        }
+        getAPIFromServer(API)
           .then(order => {
             console.log(this.state.userId);
             this.setState({order: order});
@@ -78,56 +81,6 @@ class OrderScreen extends Component {
                     }
                     keyExtractor={item => item.OrderId}
                 />
-                {/* <View style={styles.container}>
-                    <View style={styles.itemContainer}>
-                        <Text style={{fontSize:16,fontFamily:'Roboto-Bold',fontWeight:'200',marginBottom:20}}>
-                             Cân Bằng Cảm Xúc
-                        </Text>
-                        <Text style={{marginBottom:20}}>
-                            1 Món  |  99.000đ
-                        </Text>
-                        <TouchableOpacity style={{justifyContent:"center",paddingVertical:10,alignItems:'center',borderWidth:1,borderRadius:5}}>
-                            <Text>
-                                ĐẶT LẠI
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{height:10,backgroundColor:'#f7f5f6'}}>
-
-                    </View>
-                    <View style={styles.itemContainer}>
-                        <Text style={{fontSize:16,fontFamily:'Roboto-Bold',fontWeight:'200',marginBottom:20}}>
-                             Cân Bằng Cảm Xúc
-                        </Text>
-                        <Text style={{marginBottom:20}}>
-                            1 Món  |  99.000đ
-                        </Text>
-                        <TouchableOpacity style={{justifyContent:"center",paddingVertical:10,alignItems:'center',borderWidth:1,borderRadius:5}}>
-                            <Text>
-                                ĐẶT LẠI
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{height:10,backgroundColor:'#f7f5f6'}}>
-
-                    </View>
-                    <View style={styles.itemContainer}>
-                        <Text style={{fontSize:16,fontFamily:'Roboto-Bold',fontWeight:'200',marginBottom:20}}>
-                             Cân Bằng Cảm Xúc
-                        </Text>
-                        <Text style={{marginBottom:20}}>
-                            1 Món  |  99.000đ
-                        </Text>
-                        <TouchableOpacity style={{justifyContent:"center",paddingVertical:10,alignItems:'center',borderWidth:1,borderRadius:5}}>
-                            <Text>
-                                ĐẶT LẠI
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{height:10,backgroundColor:'#f7f5f6'}}>
-
-                    </View>
-                </View> */}
             </View>
         )
     }

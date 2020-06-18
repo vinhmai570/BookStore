@@ -72,9 +72,8 @@ export default class CheckOutScreen extends Component {
                     });
                     AsyncStorage.removeItem('cart').then(
                         res => {
-                            alert('Đặt hàng thành công')
-                            // this.props.navigation.navigate('GroupLogin');
-                        }
+                            // alert('Đặt hàng thành công')
+                            this.props.navigation.replace('Order',{userId:this.state.userId});                        }
                     )
                     // if(this.state.finish){
                     //     alert("Đặt hàng thành công");
@@ -85,9 +84,6 @@ export default class CheckOutScreen extends Component {
                 }
             })
             .done()
-
-            
-            
             
         }
     }

@@ -15,7 +15,8 @@ class AccountScreen extends Component {
         this.state={
             checkLogin:false,
             fullName:'',
-            email:''
+            email:'',
+            userId:0,
         };
     }
     componentDidMount(){
@@ -28,14 +29,24 @@ class AccountScreen extends Component {
         this._checkToken();
     }
     checkToken = async ()=>{
+        //update token
         await AsyncStorage.getItem('token').then(
             res=>{
                 if(res){
                     this.setState({checkLogin:true});
-                    // console.log(res);
+                    console.log(res);
                 }
             }
         );
+        //update userid
+        await AsyncStorage.getItem('userid').then(
+            res=>{
+                if(res){
+                    console.log('user id:'+res);
+                    this.setState({userId:res});
+                }
+            }
+        )
         //update fullname
         await AsyncStorage.getItem('fullname').then(
             res=>{
@@ -52,6 +63,7 @@ class AccountScreen extends Component {
                 }
             }
         )
+        
     }
     logOut = async ()=>{
         let keys = ['token', 'userid','email','fullname','groupid','cart'];
@@ -98,20 +110,20 @@ class AccountScreen extends Component {
                         </TouchableOpacity>
                         <View style={{height:10,backgroundColor:'#f7f7f7'}}></View>
                        
-                        <TouchableOpacity style={styles.itemContainer}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('Order',{userId:this.state.userId})}}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-list" size={25} style={{color:'gray'}}/>
                             </View>
                             <View style={styles.textContainer}>
                                 <Text style={{fontFamily:'Ronoto-Light',fontWeight:'100'}}>
-                                    Quản lý đơn hàng
+                                    Đơn hàng đã đặt
                                 </Text>
                             </View>
                             <View style={styles.iconNextContainer}>
                                 <Icon name="md-play" size={15} style={{color:'gray'}}/>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.itemContainer}>
+                        {/* <TouchableOpacity style={styles.itemContainer}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-cart" size={25} style={{color:'gray'}}/>
                             </View>
@@ -123,7 +135,7 @@ class AccountScreen extends Component {
                             <View style={styles.iconNextContainer}>
                                 <Icon name="md-play" size={15} style={{color:'gray'}}/>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <TouchableOpacity style={styles.itemContainer}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-eye" size={25} style={{color:'gray'}}/>

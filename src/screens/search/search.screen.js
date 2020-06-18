@@ -29,7 +29,7 @@ const ProductItem = ({image, name, price}) => (
         </View>
     </View>
   );
-class ListProductsScreen extends Component {
+class SearchScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -159,7 +159,7 @@ class ListProductsScreen extends Component {
         )
     }
 }
-export default ListProductsScreen;
+export default SearchScreen;
 const styles=StyleSheet.create({
     header: {
         flex: 1,

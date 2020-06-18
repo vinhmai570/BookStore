@@ -222,10 +222,10 @@ class CartScreen extends Component {
                    </ScrollView>
                    
                 </View>
-                <View style={{height:55,backgroundColor:'white',borderRadius:5,marginBottom:30,marginHorizontal:10,justifyContent:'center'}}>
-                        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:20}}>
+                <View style={{height:55,backgroundColor:'white',borderRadius:5,marginBottom:30,paddingHorizontal:10,justifyContent:'center'}}>
+                        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:20,backgroundColor:'white'}}>
                             <Text style={{color:'#eb5030'}}>Thành tiền</Text>
-                    <Text style={{fontSize:18,color:'#eb5030',fontFamily:'Roboto-Bold'}}>{this.state.sum}đ</Text>
+                            <Text style={{fontSize:18,color:'#eb5030',fontFamily:'Roboto-Bold'}}>{this.state.sum}đ</Text>
                         </View>
                         <TouchableOpacity style={{width:"100%",height:"90%",justifyContent:'center',backgroundColor:'#eb5030'}} 
                         onPress={()=>{if(this.state.dataCart.length>0){this.props.navigation.navigate('CheckOut',{dataCart:this.state.dataCart,userId:this.state.userId,sum:this.state.sum})} else {alert('Không có sản phẩm nào trong giỏ')}

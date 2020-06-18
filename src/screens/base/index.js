@@ -6,7 +6,7 @@ import HomeScreen from '../home/index';
 import OrderStack from '../order';
 import NotificationStack from '../notification';
 import AccountStack from '../account';
-
+import SearchStack from '../search'
 const Tab = createBottomTabNavigator();
 
 const BaseScreen=() => (
@@ -16,8 +16,8 @@ const BaseScreen=() => (
             let iconName;
             if (route.name === 'Home') {
                 iconName = 'md-home';
-            } else if (route.name === 'Order') {
-                iconName = 'md-list';
+            } else if (route.name === 'Search') {
+                iconName = 'md-search';
             } else if (route.name === 'Account') {
                 iconName = 'md-person';
             }
@@ -35,7 +35,7 @@ const BaseScreen=() => (
     }}
     >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Order" component={OrderStack} options={{title: 'Đơn hàng'}} />
+        <Tab.Screen name="Search" component={SearchStack} options={{title: 'Tìm kiếm'}} />
         <Tab.Screen name="Notification" component={NotificationStack} options={{title: 'Thông báo'}} />
         <Tab.Screen name="Account" component={AccountStack} options={{title: 'Tài khoản'}} />
     </Tab.Navigator>

@@ -19,7 +19,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {getAPIFromServer} from '../../networking/getAPI.js';
 // LINK API - DATA:JSON
 const apiGetAllProducts='http://mybook.maitrongvinh.tk/index.php/getproducts';
-
+const apiGetProductByDiscount='http://mybook.maitrongvinh.tk/index.php/getproducts/getproductbydiscount';
+const apiCountProductByGroup1='http://mybook.maitrongvinh.tk/index.php/getproducts/countProductByCateId/1';
+const apiCountProductByGroup2='http://mybook.maitrongvinh.tk/index.php/getproducts/countProductByCateId/2';
+const apiCountProductByGroup3='http://mybook.maitrongvinh.tk/index.php/getproducts/countProductByCateId/3';
+const apiCountProductByGroup4='http://mybook.maitrongvinh.tk/index.php/getproducts/countProductByCateId/4';
 const ProductItem = ({image, name, price,discount}) => (
   <View style={styles.itemContainer}>
     <Image
@@ -29,8 +33,8 @@ const ProductItem = ({image, name, price,discount}) => (
     <Text style={styles.itemName} numberOfLines={2}>
       {name}
     </Text>
-    <Text style={styles.itemPrice}>{price}</Text>
-    <Text style={{color:'#ccc',textDecorationLine: 'line-through'}}>{discount}</Text>
+    <Text style={styles.itemPrice}>{price} đ</Text>
+    <Text style={{color:'#ccc',textDecorationLine: 'line-through'}}>{discount} đ</Text>
   </View>
 );
 
@@ -41,12 +45,22 @@ class HomeScreen extends Component {
     this.state = {
       productsFromServer: [],
       isFocusSearchBar:false,
+      productsByDiscount:[],
+      countGroup1:0,
+      countGroup2:0,
+      countGroup3:0,
+      countGroup4:0,
     };
   }
   // _isMounted = false;
   componentDidMount() {
     // this._isMounted=true;
     this.refreshDataFromServer();
+    this.refreshDataFromServerByDiscount();
+    this.countProductByGroup1();
+    this.countProductByGroup2();
+    this.countProductByGroup3();
+    this.countProductByGroup4();
   }
   // componentWillUnmount(){
   //   this._isMounted=false;
@@ -60,6 +74,51 @@ class HomeScreen extends Component {
         this.setState({productsFromServer: []});
       });
   };
+  refreshDataFromServerByDiscount = () => {
+    getAPIFromServer(apiGetProductByDiscount)
+      .then(products => {
+        this.setState({productsByDiscount: products});
+      })
+      .catch(error => {
+        this.setState({productsByDiscount: []});
+      });
+  };
+  countProductByGroup1=()=>{
+    getAPIFromServer(apiCountProductByGroup1)
+      .then(count => {
+        this.setState({countGroup1: count});
+      })
+      .catch(error => {
+        this.setState({countGroup1: 0});
+      });
+  };
+  countProductByGroup2=()=>{
+    getAPIFromServer(apiCountProductByGroup2)
+      .then(count => {
+        this.setState({countGroup2: count});
+      })
+      .catch(error => {
+        this.setState({countGroup2: 0});
+      });
+  }
+  countProductByGroup3=()=>{
+    getAPIFromServer(apiCountProductByGroup3)
+      .then(count => {
+        this.setState({countGroup3: count});
+      })
+      .catch(error => {
+        this.setState({countGroup3: 0});
+      });
+  }
+  countProductByGroup4=()=>{
+    getAPIFromServer(apiCountProductByGroup4)
+      .then(count => {
+        this.setState({countGroup4: count});
+      })
+      .catch(error => {
+        this.setState({countGroup4: 0});
+      });
+  }
   discounted=(price,discount)=>{
     return parseInt(price)+parseInt(price*discount/100);
   }
@@ -122,14 +181,14 @@ class HomeScreen extends Component {
         <View style={styles.allProducts}>
           <View style={styles.productsHeader}>
             <Text style={styles.productsText}>Sản phẩm giảm giá</Text>
-            <TouchableOpacity style={styles.btnViewAllProduct} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
+            <TouchableOpacity style={styles.btnViewAllProduct} onPress={()=>{this.props.navigation.navigate('ListProductsByGroup',{linkAPI:'http://mybook.maitrongvinh.tk/index.php/getproducts/getproductbydiscount'})}}>
               <Text style={{fontSize:18,color:'white', paddingHorizontal:20}}>Xem tất cả</Text>
             </TouchableOpacity>
           </View>
           <FlatList
             style={styles.productsTop}
             ref={'flashlist'}
-            data={this.state.productsFromServer}
+            data={this.state.productsByDiscount}
             renderItem={item => {
               //  console.log(`Item = ${JSON.stringify(item.item)}, index=${JSON.stringify(item.index)}`);
               return (
@@ -162,10 +221,10 @@ class HomeScreen extends Component {
           <View style={styles.categoriesTop}>
             <View style={styles.enBooksContainer}>
               <View style={styles.enBooksContent}>
-                <TouchableOpacity style={{flex: 1}}>
+                <TouchableOpacity style={{flex: 1}} onPress={()=>{this.props.navigation.navigate('ListProductsByGroup',{linkAPI:'http://mybook.maitrongvinh.tk/index.php/getproducts/getproductbycate/1'})}}>
                   <View style={styles.cateItemHeader}>
                     <Text style={styles.cateTextHeader}>English Books</Text>
-                    <Text style={styles.cateTextContent}>15 Sản phẩm</Text>
+                    <Text style={styles.cateTextContent}>{this.state.countGroup1} Sản phẩm</Text>
                   </View>
                   <View style={styles.enBooksImgContainer}>
                     <Image
@@ -184,14 +243,14 @@ class HomeScreen extends Component {
             </View>
             <View style={styles.viBooksContainer}>
               <View style={styles.viBooksContent}>
-                <TouchableOpacity style={{flex: 1}}>
+                <TouchableOpacity style={{flex: 1}} onPress={()=>{this.props.navigation.navigate('ListProductsByGroup',{linkAPI:'http://mybook.maitrongvinh.tk/index.php/getproducts/getproductbycate/2'})}}>
                   <View style={styles.cateItemHeader}>
                     <Text style={[styles.cateTextHeader, {color: '#515f9d'}]}>
                       Sách Tiếng Việt
                     </Text>
                     <Text
                       style={[styles.cateTextContent, {color: '#515f9d'}]}>
-                      19 Sản phẩm
+                      {this.state.countGroup2} Sản phẩm
                     </Text>
                   </View>
                   <View style={styles.enBooksImgContainer}>
@@ -213,14 +272,14 @@ class HomeScreen extends Component {
           <View style={styles.categoriesBot}>
             <View style={styles.stationeryContainer}>
               <View style={styles.stationeryContent}>
-                <TouchableOpacity style={{flex: 1}}>
+                <TouchableOpacity style={{flex: 1}} onPress={()=>{this.props.navigation.navigate('ListProductsByGroup',{linkAPI:'http://mybook.maitrongvinh.tk/index.php/getproducts/getproductbycate/3'})}}>
                   <View style={styles.cateItem_header}>
                     <Text style={[styles.cateTextHeader, {color: '#ad1913'}]}>
                       Văn phòng phẩm
                     </Text>
                     <Text
                       style={[styles.cateTextContent, {color: '#ad1913'}]}>
-                      25 Sản phẩm
+                      {this.state.countGroup3} Sản phẩm
                     </Text>
                   </View>
                   <View style={styles.enBooksImgContainer}>
@@ -240,14 +299,14 @@ class HomeScreen extends Component {
             </View>
             <View style={styles.souvenirContainer}>
               <View style={styles.souvenirContent}>
-                <TouchableOpacity style={{flex: 1}}>
+                <TouchableOpacity style={{flex: 1}} onPress={()=>{this.props.navigation.navigate('ListProductsByGroup',{linkAPI:'http://mybook.maitrongvinh.tk/index.php/getproducts/getproductbycate/4'})}}>
                   <View style={styles.cateItem_header}>
                     <Text style={[styles.cateTextHeader, {color: '#246223'}]}>
                       Quà lưu niệm
                     </Text>
                     <Text
                       style={[styles.cateTextContent, {color: '#246223'}]}>
-                      43 Sản phẩm
+                      {this.state.countGroup4} Sản phẩm
                     </Text>
                   </View>
                   <View style={styles.enBooksImgContainer}>
@@ -290,6 +349,7 @@ class HomeScreen extends Component {
                   image={item.item.ImageURL}
                   name={item.item.ProdName}
                   price={item.item.Price}
+                  discount={this.discounted(item.item.Price,item.item.Discount)}
                   parentFlashlist={this}
                   />
                 </TouchableOpacity>

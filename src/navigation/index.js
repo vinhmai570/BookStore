@@ -16,6 +16,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import CheckOutScreen from '../screens/checkout';
 import OrderScreen from '../screens/order';
 import OrderItemsScreen from '../screens/orderitems';
+import ListProductsByGroupScreen from '../screens/listproductsbygroup';
 
 const Stack = createStackNavigator();
 
@@ -27,36 +28,37 @@ function AppNavigation(){
                 {/* <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/> */}
                 <Stack.Screen name="Details" component={DetailsScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="Profile" component={ProfileScreen} options={{title:'Thông tin cá nhân',headerStyle: {
-            backgroundColor:'rgb(24, 158, 255)',
-          },
-          headerTintColor: '#fff', 
-          }}/>
+                    backgroundColor:'rgb(24, 158, 255)',
+                },
+                headerTintColor: '#fff', 
+                }}/>
                 <Stack.Screen name="Cart" component={CartScreen} options={{title:'Giỏ hàng',headerStyle: {
-            backgroundColor:'rgb(24, 158, 255)',
-          },
-          headerTintColor: '#fff', 
-          }}/>
+                    backgroundColor:'rgb(24, 158, 255)',
+                },
+                headerTintColor: '#fff', 
+                }}/>
                 <Stack.Screen name="ListProducts" component={ListProductsScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="GroupLogin" component={GroupLogin} options={{title:'Đăng nhập / Đăng ký',headerStyle: {
-            backgroundColor:'rgb(24, 158, 255)',
-          },
-          headerTintColor: '#fff', 
-          }}/>
+                    backgroundColor:'rgb(24, 158, 255)',
+                },
+                headerTintColor: '#fff', 
+                }}/>
                 <Stack.Screen name="CheckOut" component={CheckOutScreen} options={{title:'Thông tin đặt hàng',headerStyle: {
-            backgroundColor:'rgb(24, 158, 255)',
-          },
-          headerTintColor: '#fff', 
-          }}/>
-            <Stack.Screen name="Order" component={OrderScreen} options={{title:'Đơn hàng đã đặt',headerStyle: {
-                backgroundColor:'rgb(24, 158, 255)',
-            },
-            headerTintColor: '#fff', 
-            }}/>
-            <Stack.Screen name="OrderItems" component={OrderItemsScreen} options={{title:'Chi tiết đơn hàng',headerStyle: {
-                backgroundColor:'rgb(24, 158, 255)',
-            },
-            headerTintColor: '#fff', 
-            }}/>
+                    backgroundColor:'rgb(24, 158, 255)',
+                },
+                headerTintColor: '#fff', 
+                }}/>
+                <Stack.Screen name="Order" component={OrderScreen} options={{title:'Đơn hàng đã đặt',headerStyle: {
+                    backgroundColor:'rgb(24, 158, 255)',
+                },
+                headerTintColor: '#fff', 
+                }}/>
+                <Stack.Screen name="OrderItems" component={OrderItemsScreen} options={{title:'Chi tiết đơn hàng',headerStyle: {
+                    backgroundColor:'rgb(24, 158, 255)',
+                },
+                headerTintColor: '#fff', 
+                }}/>
+                <Stack.Screen name="ListProductsByGroup" component={ListProductsByGroupScreen} options={{headerShown: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

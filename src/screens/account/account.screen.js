@@ -131,7 +131,7 @@ class AccountScreen extends Component {
                             </View>
                         </TouchableOpacity>
                         
-                        <TouchableOpacity style={styles.itemContainer}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-eye" size={25} style={{color:'gray'}}/>
                             </View>
@@ -144,7 +144,7 @@ class AccountScreen extends Component {
                                 <Icon name="md-play" size={15} style={{color:'gray'}}/>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.itemContainer}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-heart" size={25} style={{color:'gray'}}/>
                             </View>
@@ -205,7 +205,7 @@ class AccountScreen extends Component {
                             </View>
                         </TouchableOpacity>
                         
-                        <TouchableOpacity style={styles.itemContainer}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-eye" size={25} style={{color:'gray'}}/>
                             </View>
@@ -218,7 +218,7 @@ class AccountScreen extends Component {
                                 <Icon name="md-play" size={15} style={{color:'gray'}}/>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.itemContainer}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-heart" size={25} style={{color:'gray'}}/>
                             </View>
@@ -291,7 +291,7 @@ class AccountScreen extends Component {
                                 <Icon name="md-play" size={15} style={{color:'gray'}}/>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.itemContainer}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-eye" size={25} style={{color:'gray'}}/>
                             </View>
@@ -304,7 +304,7 @@ class AccountScreen extends Component {
                                 <Icon name="md-play" size={15} style={{color:'gray'}}/>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.itemContainer}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={()=>{this.props.navigation.navigate('ListProducts')}}>
                             <View style={styles.iconContainer}>
                                 <Icon name="md-heart" size={25} style={{color:'gray'}}/>
                             </View>

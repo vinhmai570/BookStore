@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {getAPIFromServer} from '../../networking/getAPI.js';
 var {height,width}= Dimensions.get("window");
 
-const apiGetAllProducts='http://mybook.maitrongvinh.tk/index.php/getproducts';
 const apiSearchByName='http://mybook.maitrongvinh.tk/getproducts/searchproduct/';
 
 const ProductItem = ({image, name, price,discount}) => (
@@ -30,13 +29,14 @@ const ProductItem = ({image, name, price,discount}) => (
         </View>
     </View>
   );
-class ListProductsScreen extends Component {
+class ListProductsByGroupScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             refreshing:false,
             productsFromServer: [],
-            notfound:''
+            notfound:'',
+            API:props.route.params.linkAPI,
         };
       }
     componentDidMount() {
@@ -45,7 +45,7 @@ class ListProductsScreen extends Component {
     }
     refreshDataFromServer = () => {
         this.setState({refreshing:true});
-        getAPIFromServer(apiGetAllProducts)
+        getAPIFromServer(this.state.API)
         .then(products => {
         this.setState({productsFromServer: products});
         this.setState({refreshing:false});
@@ -94,7 +94,7 @@ class ListProductsScreen extends Component {
     }
     discounted=(price,discount)=>{
         return parseInt(price)+parseInt(price*discount/100);
-    }
+      }
     render() {
         return (
             <View style={{flex:1}}>
@@ -163,7 +163,7 @@ class ListProductsScreen extends Component {
         )
     }
 }
-export default ListProductsScreen;
+export default ListProductsByGroupScreen;
 const styles=StyleSheet.create({
     header: {
         flex: 1,
